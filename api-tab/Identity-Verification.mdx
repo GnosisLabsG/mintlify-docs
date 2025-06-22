@@ -1,0 +1,618 @@
+---
+title: "Identity Verification"
+description: "Secure user authentication and personalization for Mind-e AI agents"
+---
+
+## What is Identity Verification?
+
+Identity Verification is a security feature that allows your AI agent to securely identify and personalize interactions with users. When implemented, your agent can:
+
+<CardGroup cols={2}>
+  <Card title="🔒 Verify User Identities" icon="shield-check">
+    Prevent impersonation and ensure authentic user interactions
+  </Card>
+  <Card title="🎯 Access User Information" icon="file">
+    Retrieve names, emails, roles, and preferences securely
+  </Card>
+  <Card title="💬 Personalized Responses" icon="comments">
+    Provide tailored conversations based on verified user data
+  </Card>
+  <Card title="🔐 Secure Conversations" icon="lock">
+    Maintain authenticated sessions with proper access controls
+  </Card>
+</CardGroup>
+
+---
+
+## Why Use Identity Verification?
+
+### 🔒 Enhanced Security
+
+- **Prevents impersonation** - Users cannot access other users' data
+- **Verified access only** - Only authenticated users get personalized features  
+- **Protected conversations** - Sensitive data stays secure
+
+### 🎯 Personalized Experience
+
+- **AI knows user context** - Name, role, and preferences available
+- **Tailored responses** - Conversations adapt to user background
+- **Better support** - Access to user history and account details
+
+### 🏢 Enterprise-Ready
+
+- **Existing system integration** - Works with your current authentication
+- **Compliance ready** - Meets enterprise security requirements
+- **Professional UX** - Seamless user experience
+
+---
+
+## Common Use Cases
+
+<CardGroup cols={3}>
+  <Card title="🎧 Customer Support" icon="headset">
+    **User**: "What's my account status?"  
+    **AI**: "Hi Sarah! Your Premium account is active and expires on March 15, 2024."
+  </Card>
+  
+  <Card title="🏢 Internal Tools" icon="briefcase">
+    **User**: "Show me the latest reports"  
+    **AI**: "Here are the Q4 reports for your Engineering department, John."
+  </Card>
+  
+  <Card title="🛒 E-commerce" icon="shopping-cart">
+    **User**: "Track my order"  
+    **AI**: "Your order #12345 shipped yesterday and will arrive tomorrow, Lisa!"
+  </Card>
+</CardGroup>
+
+---
+
+## Getting Started
+
+### Step 1: Get Your Agent's Secret Key
+
+<Steps>
+  <Step title="Access Dashboard">
+    Go to your Mind-e Dashboard
+  </Step>
+  <Step title="Select Agent">
+    Navigate to Agents → Select your agent
+  </Step>
+  <Step title="Integration Tab">
+    Click on Integration tab
+  </Step>
+  <Step title="Enable Feature">
+    Select Identity Verification
+  </Step>
+  <Step title="Copy Secret Key">
+    Copy the secret key displayed
+  </Step>
+</Steps>
+
+**Example secret key:**
+```
+a1b2c3d4e5f6789abcdef0123456789abcdef0123456789abcdef0123456789
+```
+
+<Warning>
+**Important**: Keep this secret key secure and never expose it in client-side code.
+</Warning>
+
+### Step 2: Implement Server-Side Hash Generation
+
+You must generate user hashes on your server using HMAC-SHA256:
+
+<CodeGroup>
+```javascript Node.js
+const crypto = require('crypto');
+
+function generateUserHash(userId, secretKey) {
+    return crypto
+        .createHmac('sha256', secretKey)
+        .update(userId)
+        .digest('hex');
+}
+
+// Usage
+const userId = 'user_12345';
+const secretKey = 'your-secret-key-from-dashboard';
+const userHash = generateUserHash(userId, secretKey);
+```
+
+```php PHP
+function generateUserHash($userId, $secretKey) {
+    return hash_hmac('sha256', $userId, $secretKey);
+}
+
+// Usage
+$userId = 'user_12345';
+$secretKey = 'your-secret-key-from-dashboard';
+$userHash = generateUserHash($userId, $secretKey);
+```
+
+```python Python
+import hmac
+import hashlib
+
+def generate_user_hash(user_id, secret_key):
+    return hmac.new(
+        secret_key.encode(),
+        user_id.encode(),
+        hashlib.sha256
+    ).hexdigest()
+
+# Usage
+user_id = 'user_12345'
+secret_key = 'your-secret-key-from-dashboard'
+user_hash = generate_user_hash(user_id, secret_key)
+```
+</CodeGroup>
+
+---
+
+## How It Works
+
+<Steps>
+  <Step title="Server-Side Hash Generation">
+    Generate a cryptographic hash using the user's ID and your secret key:
+    ```
+    HMAC-SHA256(user_id, secret_key) = user_hash
+    ```
+  </Step>
+  
+  <Step title="Client-Side Verification">
+    Send three pieces of information to Mind-e:
+    - **User ID**: The user's unique identifier
+    - **User Hash**: The secure hash generated on your server
+    - **User Metadata**: Additional user information (optional)
+  </Step>
+  
+  <Step title="Mind-e Validation">
+    Mind-e verifies the hash matches the user ID using your secret key. If valid, the AI gets access to the user's information.
+  </Step>
+</Steps>
+
+---
+
+## Implementation Methods
+
+### Method 1: Chat Widget (Recommended)
+
+For websites using the Mind-e chat widget:
+
+```javascript
+// After user authentication on your server
+mindeChat('identify', {
+    user_id: 'user_12345',
+    user_hash: 'generated_hash_from_server',
+    user_metadata: {
+        name: 'John Doe',
+        email: 'john@company.com',
+        plan: 'premium',
+        role: 'admin'
+    }
+});
+```
+
+### Complete Widget Implementation
+
+<CodeGroup>
+```html Complete Example
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My App</title>
+</head>
+<body>
+    <!-- Mind-e Chat Widget -->
+    <script>
+        (function(){
+            if(!window.mindeChat||window.mindeChat("getState")!=="initialized"){
+                window.mindeChat=(...arguments)=>{
+                    if(!window.mindeChat.q){window.mindeChat.q=[]}
+                    window.mindeChat.q.push(arguments)
+                };
+                window.mindeChat=new Proxy(window.mindeChat,{
+                    get(target,prop){
+                        if(prop==="q"){return target.q}
+                        return(...args)=>target(prop,...args)
+                    }
+                })
+            }
+            const onLoad=function(){
+                const script=document.createElement("script");
+                script.src="https://mind-e.co/embed/chat-widget.js";
+                script.id="YOUR_AGENT_ID";
+                script.domain=window.location.hostname;
+                document.body.appendChild(script)
+            };
+            if(document.readyState==="complete"){onLoad()}else{window.addEventListener("load",onLoad)}
+        })();
+    </script>
+
+    <script>
+        // After user authentication
+        async function setUserIdentity(userId) {
+            try {
+                // Get hash from your server
+                const response = await fetch('/api/generate-user-hash', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: userId })
+                });
+                
+                const data = await response.json();
+                
+                // Set identity in chat widget
+                mindeChat('identify', {
+                    user_id: data.user_id,
+                    user_hash: data.user_hash,
+                    user_metadata: data.user_metadata
+                });
+                
+            } catch (error) {
+                console.error('Failed to set user identity:', error);
+            }
+        }
+    </script>
+</body>
+</html>
+```
+</CodeGroup>
+
+### Method 2: iFrame Integration
+
+For full-page chat interfaces:
+
+```html
+<iframe 
+    src="https://mind-e.co/embed/chat.php?id=YOUR_AGENT_ID&user_id=USER_ID&user_hash=GENERATED_HASH&user_metadata=ENCODED_METADATA"
+    width="100%" 
+    height="600"
+    frameborder="0">
+</iframe>
+```
+
+### Dynamic iFrame Generation
+
+```javascript
+function createSecureChatUrl(agentId, userId, userHash, userMetadata) {
+    let url = `https://mind-e.co/embed/chat.php?id=${agentId}&user_id=${userId}&user_hash=${userHash}`;
+    
+    if (userMetadata) {
+        const encodedMetadata = encodeURIComponent(JSON.stringify(userMetadata));
+        url += `&user_metadata=${encodedMetadata}`;
+    }
+    
+    return url;
+}
+
+// Usage
+const chatUrl = createSecureChatUrl('agent_id', 'user_123', 'generated_hash', {
+    name: 'John Doe',
+    email: 'john@example.com'
+});
+
+document.getElementById('chat-iframe').src = chatUrl;
+```
+
+### Method 3: Pre-configured Setup
+
+For applications where user identity is known at page load:
+
+```javascript
+// Set identity before widget loads
+mindeChat('identify', {
+    user_id: 'user_12345',
+    user_hash: 'server_generated_hash',
+    user_metadata: userDataFromServer
+});
+```
+
+---
+
+## User Metadata
+
+User metadata provides additional context about users to the AI.
+
+### Recommended Fields
+
+| Field | Description | Example |
+|-------|-------------|---------|
+| **name** | User's display name | "Sarah Johnson" |
+| **email** | Email address | "sarah@company.com" |
+| **role** | User's role/position | "Manager", "Customer" |
+| **plan** | Subscription level | "Premium", "Basic" |
+| **company** | Company name | "Acme Corporation" |
+| **department** | Department/team | "Engineering", "Sales" |
+
+### Example Metadata
+
+```json
+{
+    "name": "Sarah Johnson",
+    "email": "sarah@company.com",
+    "role": "Product Manager",
+    "plan": "Premium",
+    "company": "Tech Corp",
+    "department": "Product",
+    "preferences": {
+        "language": "en",
+        "timezone": "UTC-5"
+    }
+}
+```
+
+### Limitations
+
+<CardGroup cols={3}>
+  <Card title="📊 Size Limit" icon="chart-bar">
+    Maximum 1000 characters total (JSON stringified)
+  </Card>
+  <Card title="🔤 Format" icon="code">
+    Must be valid JSON format
+  </Card>
+  <Card title="🚫 No Sensitive Data" icon="check">
+    No passwords, tokens, or PII
+  </Card>
+</CardGroup>
+
+---
+
+## Security Requirements
+
+### ✅ Required Security Practices
+
+<CardGroup cols={2}>
+  <Card title="🖥️ Server-Side Hash Generation Only" icon="server">
+    ```javascript
+    // ✅ Correct - Server-side
+    const userHash = crypto.createHmac('sha256', secretKey)
+        .update(userId).digest('hex');
+    ```
+  </Card>
+  
+  <Card title="🔒 HTTPS Only" icon="lock">
+    - All communications must use HTTPS
+    - Protect data in transit
+    - No exceptions for production
+  </Card>
+  
+  <Card title="✅ Validate Authentication" icon="user-check">
+    ```javascript
+    // ✅ Verify user is authenticated
+    app.post('/api/generate-hash', authenticate, (req, res) => {
+        if (req.user.id !== req.body.user_id) {
+            return res.status(401).json({ error: 'Unauthorized' });
+        }
+        // Generate hash...
+    });
+    ```
+  </Card>
+  
+  <Card title="🔐 Secure Key Storage" icon="key">
+    - Use environment variables
+    - Never commit to version control
+    - Rotate keys regularly
+  </Card>
+</CardGroup>
+
+### ❌ Security Anti-Patterns
+
+<Accordion title="Common Security Mistakes">
+  <AccordionItem title="Never Expose Secret Key Client-Side">
+    ```javascript
+    // ❌ Wrong - Secret key exposed
+    const secretKey = 'your_secret_key'; // Never do this!
+    const hash = crypto.createHmac('sha256', secretKey).update(userId).digest('hex');
+    ```
+    **Why it's wrong**: Anyone can view source and see your secret key.
+  </AccordionItem>
+  
+  <AccordionItem title="Don't Generate Hashes in Browser">
+    ```javascript
+    // ❌ Wrong - Client-side hash generation
+    function generateHashInBrowser(userId, secretKey) {
+        // This is insecure - anyone can see the secret key
+    }
+    ```
+    **Why it's wrong**: Client-side code is visible to all users.
+  </AccordionItem>
+  
+  <AccordionItem title="Don't Include Sensitive Data">
+    ```javascript
+    // ❌ Wrong - Sensitive data in metadata
+    {
+        name: "John Doe",
+        password: "secret123", // Never include passwords
+        api_key: "sk_123456",  // Never include API keys
+        ssn: "123-45-6789"     // Never include sensitive personal data
+    }
+    ```
+    **Why it's wrong**: Metadata is sent to third-party service.
+  </AccordionItem>
+</Accordion>
+
+---
+
+## Troubleshooting
+
+<Accordion title="Common Issues & Solutions">
+  <AccordionItem title="Hash Verification Fails">
+    **Symptoms**: AI doesn't recognize user information
+    
+    **Common Causes**:
+    - Secret key mismatch
+    - Incorrect hash algorithm
+    - User ID mismatch between client and server
+    
+    **Solutions**:
+    - Verify secret key is copied exactly from Mind-e dashboard
+    - Ensure using HMAC-SHA256 algorithm
+    - Check user ID is identical in all requests
+  </AccordionItem>
+  
+  <AccordionItem title="Widget Not Loading Identity">
+    **Symptoms**: `mindeChat('identify')` not working
+    
+    **Solutions**:
+    - Ensure widget is fully loaded before calling identify
+    - Check browser console for JavaScript errors
+    - Verify all required parameters are provided
+    - Test with direct method first
+  </AccordionItem>
+  
+  <AccordionItem title="Metadata Issues">
+    **Problem**: Metadata too large (>1000 characters)
+    
+    **Solution**: Reduce metadata size by:
+    - Removing unnecessary fields
+    - Using shorter field names
+    - Storing large data server-side and referencing by ID
+    
+    **Problem**: Invalid JSON in metadata
+    
+    **Solution**: Validate JSON before sending:
+    ```javascript
+    try {
+        JSON.stringify(userMetadata);
+    } catch (error) {
+        console.error('Invalid metadata JSON:', error);
+    }
+    ```
+  </AccordionItem>
+</Accordion>
+
+---
+
+## Best Practices
+
+### 🔒 Security
+
+<CardGroup cols={2}>
+  <Card title="Authentication First" icon="shield-check">
+    Always validate authentication before generating hashes
+  </Card>
+  <Card title="Environment Variables" icon="gear">
+    Use environment variables for secret keys
+  </Card>
+  <Card title="Rate Limiting" icon="clock">
+    Implement rate limiting on hash generation endpoints
+  </Card>
+  <Card title="Security Monitoring" icon="eye">
+    Log verification attempts for security monitoring
+  </Card>
+</CardGroup>
+
+### ⚡ Performance
+
+- **Cache user hashes** when possible (with appropriate TTL)
+- **Minimize metadata size** to reduce request overhead
+- **Implement proper error handling** for network failures
+- **Use async/await** for better error handling
+
+### 👤 User Experience
+
+- **Graceful degradation** - chat works without identity verification
+- **Clear error messages** for developers (in console)
+- **Fast identity setup** - don't block chat interface
+- **Consistent user data** across sessions
+
+---
+
+## Advanced Features
+
+### Conditional AI Behavior
+
+Configure AI responses based on user attributes:
+
+```javascript
+// Example metadata for role-based responses
+{
+    "name": "John Doe",
+    "role": "admin",
+    "permissions": ["read", "write", "delete"],
+    "department": "engineering"
+}
+```
+
+The AI can then provide different responses based on user role or permissions.
+
+### Dynamic Personalization
+
+Use metadata for context-aware responses:
+
+<CardGroup cols={2}>
+  <Card title="👋 Personal Greetings" icon="hand-wave">
+    Greet users by name and reference their context
+  </Card>
+  <Card title="🏢 Company Context" icon="building">
+    Reference their company and department in responses
+  </Card>
+  <Card title="🎯 Role-Specific Info" icon="target">
+    Provide information relevant to their role
+  </Card>
+  <Card title="⭐ Custom Recommendations" icon="star">
+    Customize suggestions based on preferences
+  </Card>
+</CardGroup>
+
+### Multi-Language Support
+
+Include language preferences:
+
+```javascript
+{
+    "name": "Marie Dubois",
+    "language": "fr",
+    "locale": "fr-FR",
+    "timezone": "Europe/Paris"
+}
+```
+
+---
+
+## Migration Guide
+
+### Existing Integrations
+
+<CardGroup cols={2}>
+  <Card title="✅ Backward Compatible" icon="check-circle">
+    Existing chat continues working without changes
+  </Card>
+  <Card title="🔧 Optional Feature" icon="tools">
+    Implement identity verification when ready
+  </Card>
+  <Card title="⏱️ No Downtime" icon="clock">
+    Add identity verification gradually
+  </Card>
+  <Card title="📈 Progressive Enhancement" icon="chart-line">
+    Start with specific user groups
+  </Card>
+</CardGroup>
+
+### Implementation Steps
+
+<Steps>
+  <Step title="Add Hash Generation">
+    Add hash generation to your authentication system
+  </Step>
+  <Step title="Test in Development">
+    Test with development agent first
+  </Step>
+  <Step title="Implement Frontend Calls">
+    Implement identity calls in your frontend
+  </Step>
+  <Step title="Staging Testing">
+    Test with real users in staging environment
+  </Step>
+  <Step title="Production Deployment">
+    Deploy to production when satisfied
+  </Step>
+</Steps>
+
+---
+
+<Note>
+**Ready to implement?** Start with the [Getting Started](#getting-started) section and follow our step-by-step guide. For questions, reach out to our [support team](mailto:support@mind-e.co).
+</Note>

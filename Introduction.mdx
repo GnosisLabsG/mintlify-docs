@@ -1,0 +1,261 @@
+---
+title: "Welcome to Mind-e"
+description: "The next-generation AI platform for creating intelligent, personalized agents that understand each user's unique context"
+---
+
+# Quick Overview
+
+Mind-e revolutionizes how businesses create AI experiences by building **intelligent agents that know each user personally**. Unlike traditional chatbots that give the same response to everyone, Mind-e creates isolated, secure knowledge environments for every individual user.
+
+<CardGroup cols={2}>
+  <Card
+    title="🧠 Personalized Intelligence"
+    icon="brain"
+  >
+    Each user gets their own AI agent trained on their specific documents, context, and data
+  </Card>
+  <Card
+    title="🔐 Bank-Level Security"
+    icon="shield-halved"
+  >
+    Cryptographic user isolation ensures complete privacy and data protection
+  </Card>
+  <Card
+    title="⚡ Real-Time Processing"
+    icon="bolt"
+  >
+    Upload documents and watch as AI instantly learns and adapts to each user's needs
+  </Card>
+  <Card
+    title="🎯 Enterprise Ready"
+    icon="building"
+  >
+    Built for schools, healthcare, and organizations that need secure, personalized AI
+  </Card>
+</CardGroup>
+
+---
+
+## What Makes Mind-e Revolutionary?
+
+Mind-e isn't just another AI chatbot platform. We've engineered a **personalized AI ecosystem** that transforms how users interact with artificial intelligence.
+
+### 🔮 **User-Specific Knowledge Universes**
+
+Every user gets their own private AI universe. Upload a student's transcript, a patient's medical history, or an employee's training materials – and watch as the AI becomes an expert on that individual's unique situation.
+
+```javascript
+// Each user gets their own isolated knowledge base
+const studentAI = await mindE.createUserDatabase('student_123');
+await mindE.uploadDocument('student_123', 'my_schedule.pdf');
+await mindE.uploadDocument('student_123', 'my_grades.pdf');
+
+// Now the AI knows this specific student's context
+const response = await mindE.chat('When is my next exam?', 'student_123');
+// Result: "Your Physics exam is tomorrow at 2 PM in Room 204"
+```
+
+### 🛡️ **Zero-Trust Identity Architecture** 
+
+Our cryptographic verification system ensures users only access their own data – no passwords stored, no data leaks, no privacy concerns.
+
+<CardGroup cols={3}>
+  <Card title="No Password Storage" icon="key">
+    HMAC-SHA256 hashing eliminates password vulnerabilities
+  </Card>
+  <Card title="Per-Request Verification" icon="refresh">
+    Every interaction is cryptographically verified
+  </Card>
+  <Card title="Complete Isolation" icon="wall-brick">
+    Users cannot access each other's data, ever
+  </Card>
+</CardGroup>
+
+### 🚀 **Intelligent Document Understanding**
+
+Mind-e doesn't just store files – it **understands** them. Our AI reads PDFs, Word docs, and web pages to create searchable knowledge that answers complex questions.
+
+<Note>
+**Example**: Upload a 200-page employee handbook, and employees can ask "What's the vacation policy for remote workers?" and get instant, accurate answers with source citations.
+</Note>
+
+---
+
+## Perfect For Organizations That Need More
+
+<CardGroup cols={2}>
+  <Card
+    title="🎓 Educational Institutions"
+    icon="graduation-cap"
+    href="/user-guides/use-cases/education"
+  >
+    **Student Portals**: Personal schedules, grades, course materials
+    **Parent Access**: Child-specific information and updates  
+    **Faculty Tools**: Student progress and personalized insights
+  </Card>
+  <Card
+    title="🏥 Healthcare Systems"
+    icon="user-doctor"
+    href="/user-guides/use-cases/healthcare"
+  >
+    **Patient Portals**: Medical history, appointments, care plans
+    **Provider Tools**: Patient-specific notes and treatment history
+    **Family Access**: Secure information sharing for authorized users
+  </Card>
+  <Card
+    title="🏢 Enterprise Platforms"
+    icon="briefcase"
+    href="/user-guides/use-cases/enterprise"
+  >
+    **Employee Self-Service**: Personal HR docs, benefits, policies
+    **Customer Support**: Account-specific documentation and history
+    **Training Systems**: Role-based learning and development
+  </Card>
+  <Card
+    title="🏦 Financial Services"
+    icon="landmark"
+    href="/user-guides/use-cases/financial"
+  >
+    **Client Portals**: Personal investment data and recommendations
+    **Advisor Tools**: Client-specific insights and documentation
+    **Compliance**: Secure, auditable user interactions
+  </Card>
+</CardGroup>
+
+---
+
+## Integration That Actually Works
+
+Choose how you want to deploy Mind-e's personalized AI power:
+
+### 🖼️ **Embedded iFrame**
+Deploy a complete personalized AI interface anywhere on your platform. Each user automatically sees their own context and data.
+
+```html
+<iframe 
+  src="https://mind-e.co/chat/YOUR_AGENT_ID?user=USER_ID&hash=USER_HASH"
+  width="100%" 
+  height="600"
+  frameborder="0">
+</iframe>
+```
+
+### 💬 **Smart Chat Bubble**
+Add an intelligent floating assistant that knows each user personally. Minimalist design, maximum intelligence.
+
+```javascript
+// Automatically detects user and loads their personal AI
+mindE.initChatBubble({
+  agentId: 'YOUR_AGENT_ID',
+  userId: currentUser.id,
+  position: 'bottom-right',
+  theme: 'modern'
+});
+```
+
+### 🔧 **Powerful APIs**
+Build completely custom experiences with our comprehensive API suite. Full control over user experience, full power of personalized AI.
+
+```javascript
+// Create personalized experiences with complete flexibility
+const response = await mindE.chat({
+  message: "What should I focus on this week?",
+  userId: user.id,
+  userHash: generateSecureHash(user.id),
+  context: {
+    role: user.role,
+    department: user.department,
+    lastLogin: user.lastLogin
+  }
+});
+```
+
+---
+
+## The Mind-e Advantage
+
+<Accordion title="Why Choose Mind-e Over Generic AI Platforms?">
+  <AccordionItem title="🎯 True Personalization">
+    **Generic platforms**: One AI for everyone, same responses for all users
+    
+    **Mind-e**: Individual AI agents that know each user's specific context, documents, and needs
+  </AccordionItem>
+  
+  <AccordionItem title="🔒 Enterprise Security">
+    **Generic platforms**: Shared databases with access controls
+    
+    **Mind-e**: Cryptographically isolated user environments with zero-trust architecture
+  </AccordionItem>
+  
+  <AccordionItem title="📚 Intelligent Knowledge">
+    **Generic platforms**: Static training data that never changes
+    
+    **Mind-e**: Dynamic, user-specific knowledge that grows with document uploads and interactions
+  </AccordionItem>
+  
+  <AccordionItem title="⚡ Real-Time Adaptation">
+    **Generic platforms**: Manual retraining and updates
+    
+    **Mind-e**: Instant document processing and immediate AI knowledge updates
+  </AccordionItem>
+</Accordion>
+
+---
+
+## Ready to Transform Your Platform?
+
+<Steps>
+  <Step title="Create Your Agent">
+    Set up your first personalized AI agent in under 5 minutes
+  </Step>
+  <Step title="Enable User Databases">
+    Turn on user-specific knowledge bases for personalized experiences
+  </Step>
+  <Step title="Upload User Content">
+    Add documents, files, and data specific to each user
+  </Step>
+  <Step title="Deploy & Scale">
+    Integrate into your platform and watch engagement soar
+  </Step>
+</Steps>
+
+<CardGroup cols={2}>
+  <Card
+    title="🚀 Quick Start Guide"
+    icon="rocket"
+    href="/user-guides/getting-started"
+  >
+    Get your first personalized AI agent running in 10 minutes
+  </Card>
+  <Card
+    title="👨‍💻 Developer Integration"
+    icon="code"
+    href="/developer-guides/overview"
+  >
+    Deep-dive technical guide for seamless platform integration
+  </Card>
+  <Card
+    title="📖 API Documentation"
+    icon="book"
+    href="/api-reference/complete-reference"
+  >
+    Complete API reference with examples and best practices
+  </Card>
+  <Card
+    title="🎯 Use Case Examples"
+    icon="target"
+    href="/examples/industry-solutions"
+  >
+    Real-world implementations across industries
+  </Card>
+</CardGroup>
+
+---
+
+<Warning>
+**Traditional AI platforms create one-size-fits-all experiences.** Mind-e creates AI that knows your users personally – their documents, their context, their unique needs. The difference isn't just technical, it's transformational.
+</Warning>
+
+<Tip>
+**Ready to see the difference?** Create your first personalized AI agent today and experience what happens when AI truly understands your users.
+</Tip>
