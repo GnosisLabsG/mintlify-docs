@@ -1,0 +1,176 @@
+---
+title: "Playground"
+description: "The Playground area is a space where you can interact with and test your AI agent. It allows you to see how your agent responds to different inputs and make adjustments as needed before deploying to your platform."
+---
+
+<img
+  src="/images/playground-main.png"
+  alt="Mind-e Playground Interface"
+  style={{ maxWidth: "100%", height: "auto", borderRadius: "8px", marginBottom: "24px" }}
+/>
+
+---
+
+## Agent Behavior
+
+Configure how your AI agent behaves and responds to users.
+
+### System Prompt
+
+Define how your AI agent should behave and respond to users. This sets the context for how the AI should interact with users by providing initial instructions or guidelines.
+
+**Best Practices:**
+- Use natural language
+- Keep sentences short and simple
+- Include examples showing good responses
+- Focus on what you want the bot to do
+- Start with action-oriented verbs: "Generate", "Create", "Provide"
+
+### Knowledge Base Restriction
+
+**Enable Context Restriction**: When enabled, AI will only answer from your knowledge base content. When disabled, AI can use general knowledge along with your content.
+
+<Note>
+**Recommended**: Keep this enabled for accurate, knowledge-base-focused responses.
+</Note>
+
+### Response Style
+
+Adjust how creative or focused your AI's responses should be using the temperature slider.
+
+- **Reserved (0.0-0.3)**: More focused and consistent responses
+- **Balanced (0.4-0.7)**: Good balance of consistency and creativity  
+- **Creative (0.8-1.0)**: More varied and creative responses
+
+**Default**: 0.7 (recommended for most use cases)
+
+---
+
+## Voice Features
+
+### Text-to-Speech Settings
+
+**Enable Text-to-Speech**: Messages will have a speech button to read content aloud.
+
+**Voice Configuration**:
+- Default: ChatGPT's text-to-speech
+- Optional: Configure ElevenLabs for custom voices
+- ElevenLabs API Key: Enter your API key for custom voices
+- Voice ID: Select your preferred voice
+
+### Voice Message Settings
+
+**Enable Voice Messages**: Users can send voice messages in the chat.
+
+**Auto-speech for Voice Messages**: AI responses will be automatically spoken when user sends voice.
+
+---
+
+## Sources
+
+Upload and manage content for your AI agent.
+
+### Upload Files
+
+Drag and drop your files or click to browse. Supported formats:
+
+- **PDF**: Document files
+- **DOCX**: Word documents  
+- **HTML**: Web pages
+- **TXT**: Plain text files
+
+**Upload Limit**: 5 files per minute
+
+### Manage Sources
+
+Switch to "Manage Sources" tab to:
+- View uploaded documents
+- Check processing status
+- Delete or organize files
+- Monitor knowledge base content
+
+---
+
+## Chat History
+
+View and analyze conversations with your AI agent.
+
+### Filter Conversations
+
+**Date Range**: Select specific time periods to review.
+
+**Source**: Filter by conversation source (website, iframe, API, etc.).
+
+### Conversation List
+
+- View conversation previews
+- See timestamp and source
+- Click any conversation to view full details
+- Analyze user interactions and AI responses
+
+---
+
+## Testing Your Agent
+
+### Basic Testing Steps
+
+<Steps>
+  <Step title="Configure Agent">
+    Set up your system prompt and response style in Agent Behavior
+  </Step>
+  <Step title="Upload Content">
+    Add documents and files in the Sources section
+  </Step>
+  <Step title="Test Conversations">
+    Use the playground chat to test different scenarios
+  </Step>
+  <Step title="Review History">
+    Check chat history to analyze performance
+  </Step>
+</Steps>
+
+### Example Test Scenarios
+
+**Knowledge Testing:**
+```
+User: "What services do you offer?"
+Expected: Response based on uploaded company documents
+```
+
+**Personality Testing:**
+```
+User: "Hello!"
+Expected: Response matching your system prompt tone
+```
+
+**Edge Case Testing:**
+```
+User: "What's the weather like?"
+Expected: Appropriate response based on knowledge base restriction setting
+```
+
+---
+
+## Best Practices
+
+### Effective Testing
+
+- **Test different question types**: Factual, conversational, edge cases
+- **Check response consistency**: Ensure similar questions get similar answers
+- **Verify knowledge accuracy**: Confirm responses match your uploaded content
+- **Test voice features**: If enabled, test both speech output and voice input
+
+### Optimization Tips
+
+- **Monitor response quality**: Use chat history to identify areas for improvement
+- **Adjust temperature**: Fine-tune creativity vs consistency based on your needs
+- **Update system prompt**: Refine based on actual conversation patterns
+- **Manage knowledge base**: Keep content current and relevant
+
+<Warning>
+**Note**: Changes to agent settings apply immediately to the playground but may take a few minutes to reflect in deployed integrations.
+</Warning>
+
+<Tip>
+**Pro Tip**: Test your agent with real questions your users might ask to ensure it provides helpful, accurate responses.
+</Tip>

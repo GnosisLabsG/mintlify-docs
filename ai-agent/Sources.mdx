@@ -1,0 +1,208 @@
+---
+title: "Sources"
+description: "Upload and manage content for your AI agent. Sources are the foundation of your AI's knowledge base - documents, files, and content that your agent uses to provide accurate and relevant responses"
+---
+
+<img
+  src="/images/sources-main.jpg"
+  alt="Mind-e Sources Interface"
+  style={{ maxWidth: "100%", height: "auto", borderRadius: "8px", marginBottom: "24px" }}
+/>
+
+---
+
+## Upload Files
+
+Add new content to your AI agent's knowledge base by uploading files directly.
+
+### Supported File Types
+
+- <Icon icon="file-text" /> **PDF** - Documents, manuals, reports
+- <Icon icon="file-text" /> **DOCX** - Word documents, articles  
+- <Icon icon="code" /> **HTML** - Web pages, documentation
+- <Icon icon="file-text" /> **TXT** - Plain text files, notes
+
+### How to Upload
+
+<Steps>
+  <Step title="Drag and Drop">
+    Simply drag your files into the upload area
+  </Step>
+  <Step title="Browse Files">
+    Click "Browse Files" to select files from your computer
+  </Step>
+  <Step title="Wait for Processing">
+    Files are automatically processed and added to your knowledge base
+  </Step>
+  <Step title="Verify Upload">
+    Check the "Manage Sources" tab to confirm successful upload
+  </Step>
+</Steps>
+
+### Upload Limits
+
+- **Rate Limit**: 5 files per minute
+- **File Size**: Maximum 10MB per file
+- **Total Storage**: Depends on your plan
+- **Concurrent Uploads**: Process one file at a time for best results
+
+<Note>
+**Processing Time**: Larger files may take a few minutes to process. You can continue using your agent while files are being processed in the background.
+</Note>
+
+---
+
+## Manage Sources
+
+View, organize, and manage all uploaded content in your AI agent's knowledge base.
+
+### Features
+
+**View All Sources**: See a complete list of uploaded files with details like:
+- File name and type
+- Upload date and time
+- Processing status
+- File size
+
+**Processing Status**: Track the status of your uploaded files:
+- **Processing**: File is being analyzed and indexed
+- **Completed**: File is ready and available to your AI
+- **Failed**: Upload or processing encountered an error
+
+**File Management**: Organize your knowledge base:
+- Delete outdated or incorrect files
+- Rename files for better organization
+- View file content and metadata
+- Check which files are being referenced in conversations
+
+### Content Organization Tips
+
+- **Use descriptive filenames** - Makes it easier to manage your sources
+- **Group related content** - Upload related documents together
+- **Regular cleanup** - Remove outdated or irrelevant files
+- **Version control** - Replace old versions with updated documents
+
+---
+
+## Best Practices
+
+### Content Quality
+
+**Relevant Content**: Upload only content that's relevant to your AI agent's purpose and your users' needs.
+
+**Clear Structure**: Well-structured documents with headings and clear sections work best for AI understanding.
+
+**Updated Information**: Regularly update your sources to ensure your AI provides current and accurate information.
+
+**Avoid Duplicates**: Don't upload the same content multiple times as it may confuse your AI's responses.
+
+### File Optimization
+
+**Readable Text**: Ensure PDFs contain selectable text, not just images
+**Clean Formatting**: Remove unnecessary formatting that might interfere with processing
+**Logical Structure**: Use headings, bullet points, and clear sections
+**Complete Information**: Include context and background information in your documents
+
+### Upload Strategy
+
+**Start Small**: Begin with your most important documents
+**Test Responses**: After uploading, test how well your AI uses the new content
+**Gradual Addition**: Add content gradually and test performance
+**Monitor Usage**: Check which sources are most referenced in conversations
+
+---
+
+## Troubleshooting
+
+### Common Upload Issues
+
+<Accordion title="Upload Problems & Solutions">
+  <AccordionItem title="File Won't Upload">
+    **Possible Causes:**
+    - File size exceeds 10MB limit
+    - Unsupported file format
+    - Rate limit exceeded (5 files/minute)
+    
+    **Solutions:**
+    - Compress large files or split into smaller documents
+    - Convert to supported format (PDF, DOCX, HTML, TXT)
+    - Wait a minute before uploading more files
+  </AccordionItem>
+  
+  <AccordionItem title="Processing Failed">
+    **Possible Causes:**
+    - Corrupted file
+    - Password-protected document
+    - Poor text quality in scanned PDFs
+    
+    **Solutions:**
+    - Re-save the file and try uploading again
+    - Remove password protection
+    - Use OCR software for scanned documents
+  </AccordionItem>
+  
+  <AccordionItem title="AI Not Using Uploaded Content">
+    **Possible Causes:**
+    - File still processing
+    - Content not relevant to user questions
+    - Poor document structure
+    
+    **Solutions:**
+    - Wait for processing to complete
+    - Test with questions directly related to uploaded content
+    - Improve document structure with clear headings
+  </AccordionItem>
+</Accordion>
+
+### File Processing Status
+
+- **Queued**: File is waiting to be processed
+- **Processing**: AI is analyzing and indexing the content
+- **Completed**: File is fully processed and available
+- **Error**: Processing failed - check file format and try again
+
+---
+
+## Content Guidelines
+
+### What to Upload
+
+- Company documents, FAQs, and support materials
+- Product manuals and documentation
+- Policies and procedures relevant to your users
+
+<Warning>
+**Security Note**: Only upload content that you're comfortable having your AI reference in conversations.
+</Warning>
+
+<Tip>
+**Pro Tip**: Upload a variety of content types to give your AI a comprehensive knowledge base. Mix formal documents with casual FAQs for better coverage of user questions.
+</Tip>
+
+---
+
+## Integration with AI Agent
+
+### How Sources Work
+
+Your uploaded sources become part of your AI agent's knowledge base. When users ask questions, the AI:
+
+1. **Searches** through your uploaded content
+2. **Finds** relevant information from your sources
+3. **Synthesizes** a response using that information
+4. **Cites** the source when appropriate
+
+### Content Retrieval
+
+**Semantic Search**: AI understands meaning, not just keywords
+**Context Awareness**: AI considers the full context of user questions
+**Source Priority**: More recent and relevant sources are prioritized
+**Combination**: AI can combine information from multiple sources
+
+### Response Quality
+
+The quality of your AI's responses directly depends on:
+- **Relevance** of uploaded content
+- **Completeness** of information in sources
+- **Organization** and structure of documents
+- **Currency** of information

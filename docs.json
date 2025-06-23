@@ -2,6 +2,9 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Mind-e",
+   "icons": {
+    "library": "lucide"
+  },
   "colors": {
     "primary": "#8B5CF6",
     "light": "#A78BFA",
@@ -22,14 +25,11 @@
             ]
           },
           {
-            "group": "Essentials",
+            "group": "User Interfac",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "ai-agent/Playgorund",
+              "ai-agent/Sources",
+              "ai-agent/ChatHistory"
             ]
           }
         ]
