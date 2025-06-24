@@ -1,0 +1,263 @@
+---
+title: "Identity Verification"
+description: "Secure user authentication for your Mind-e AI agent"
+icon: "shield-check"
+---
+
+## What is Identity Verification?
+
+<Info>
+  Identity verification ensures that users cannot impersonate others when interacting with your AI agent. When enabled, each user's identity is cryptographically verified using a secret key that only you have access to.
+</Info>
+
+Identity verification prevents unauthorized access and ensures that user data and conversations remain secure and properly attributed to the correct individuals.
+
+## Your Secret Key
+
+Use this secret key on your server to generate user hashes. **Never expose this key on the client side.**
+
+<Warning>
+  **Important:** Keep this secret key secure and never expose it in client-side code. Store it safely on your server.
+</Warning>
+
+To get your secret key:
+
+<Steps>
+  <Step title="Navigate to Identity Verification">
+    Go to **Integration** → **Identity Verification** in your dashboard
+  </Step>
+  <Step title="Copy Secret Key">
+    Click **Copy** next to your secret key
+  </Step>
+  <Step title="Store Securely">
+    Save the key in your server environment variables
+  </Step>
+</Steps>
+
+## Implementation Methods
+
+Choose the implementation method that matches how you've integrated your Mind-e agent.
+
+<Tabs>
+  <Tab title="Chat Widget (Recommended)">
+    
+### For websites using the Mind-e chat widget
+
+Use the `identify` method to set user identity after generating the hash on your server.
+
+#### Step 1: Generate hash on your server (Node.js example)
+
+```javascript
+const crypto = require('crypto');
+const userId = 'user_12345';
+const secretKey = 'YOUR_SECRET_KEY'; // From Mind-e dashboard
+const userHash = crypto.createHmac('sha256', secretKey).update(userId).digest('hex');
+```
+
+#### Step 2: Use the identify method in your frontend
+
+```javascript
+mindeChat('identify', {
+  user_id: 'user_12345',
+  user_hash: 'generated_hash_from_server',
+  user_metadata: {
+    name: 'John Doe',
+    email: 'john@company.com',
+    plan: 'premium',
+    role: 'admin'
+  }
+});
+```
+
+<Note>
+  Call the identify method after your chat widget loads and you have the user's information available.
+</Note>
+
+  </Tab>
+  
+  <Tab title="iframe Integration">
+    
+### For full-page chat interfaces
+
+Include user identification parameters directly in the iframe URL.
+
+```html
+<iframe
+  src="https://mind-e.co/embed/chat.php?id=YOUR_AGENT_ID&user_id=USER_ID&user_hash=GENERATED_HASH&user_metadata=ENCODED_METADATA"
+  width="100%"
+  height="600"
+  frameborder="0">
+</iframe>
+```
+
+<Note>
+  The `user_metadata` parameter should be URL-encoded JSON (use `JSON.stringify()` then `encodeURIComponent()`). Generate the `user_hash` on your server using HMAC-SHA256.
+</Note>
+
+  </Tab>
+</Tabs>
+
+## How it Works
+
+The identity verification process follows these secure steps:
+
+<Steps>
+  <Step title="Generate Hash">
+    On your server, create a hash using the user ID and your secret key with HMAC-SHA256
+  </Step>
+  <Step title="Send to Client">
+    Pass both the user ID and hash to your frontend application
+  </Step>
+  <Step title="Verify Identity">
+    Mind-e validates the hash matches the user ID using your secret key
+  </Step>
+  <Step title="Secure Context">
+    If verification passes, user metadata is included in AI context for personalization
+  </Step>
+  <Step title="Invalid Protection">
+    If hash doesn't match, user ID is removed from all requests
+  </Step>
+</Steps>
+
+## Code Examples
+
+### Node.js Implementation
+
+```javascript
+const crypto = require('crypto');
+
+// Your secret key from Mind-e dashboard
+const SECRET_KEY = process.env.MIND_E_SECRET_KEY;
+
+function generateUserHash(userId) {
+  return crypto
+    .createHmac('sha256', SECRET_KEY)
+    .update(userId)
+    .digest('hex');
+}
+
+// Example usage
+const userId = 'user_12345';
+const userHash = generateUserHash(userId);
+
+// Send to frontend
+res.json({
+  user_id: userId,
+  user_hash: userHash,
+  user_metadata: {
+    name: 'John Doe',
+    email: 'john@company.com',
+    plan: 'premium'
+  }
+});
+```
+
+### Python Implementation
+
+```python
+import hmac
+import hashlib
+import os
+
+def generate_user_hash(user_id):
+    secret_key = os.getenv('MIND_E_SECRET_KEY')
+    return hmac.new(
+        secret_key.encode('utf-8'),
+        user_id.encode('utf-8'),
+        hashlib.sha256
+    ).hexdigest()
+
+# Example usage
+user_id = 'user_12345'
+user_hash = generate_user_hash(user_id)
+```
+
+### PHP Implementation
+
+```php
+<?php
+function generateUserHash($userId) {
+    $secretKey = $_ENV['MIND_E_SECRET_KEY'];
+    return hash_hmac('sha256', $userId, $secretKey);
+}
+
+$userId = 'user_12345';
+$userHash = generateUserHash($userId);
+?>
+```
+
+## User Metadata
+
+Include additional user information for personalized AI responses:
+
+```javascript
+{
+  user_metadata: {
+    name: 'John Doe',
+    email: 'john@company.com',
+    plan: 'premium',
+    role: 'admin',
+    company: 'Acme Corp',
+    department: 'Engineering',
+    joined_date: '2023-01-15',
+    preferences: {
+      language: 'en',
+      timezone: 'UTC-8'
+    }
+  }
+}
+```
+
+## Security Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Server-Side Only" icon="server">
+    Always generate hashes on your server, never in the browser
+  </Card>
+  <Card title="Environment Variables" icon="lock">
+    Store your secret key in environment variables
+  </Card>
+  <Card title="HTTPS Only" icon="shield">
+    Only use identity verification over HTTPS connections
+  </Card>
+  <Card title="Regular Rotation" icon="refresh-cw">
+    Consider rotating your secret key periodically
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Hash validation failed" icon="alert-triangle">
+    - Verify your secret key is correct
+    - Ensure user ID matches exactly between hash generation and verification
+    - Check that you're using HMAC-SHA256 algorithm
+    - Confirm hash is being generated server-side
+  </Accordion>
+
+  <Accordion title="User metadata not appearing" icon="user-x">
+    - Verify identity verification is passing
+    - Check that metadata is properly formatted JSON
+    - Ensure metadata is URL-encoded for iframe implementations
+    - Test with simple metadata first
+  </Accordion>
+
+  <Accordion title="Secret key exposed error" icon="key">
+    - Never include secret key in client-side code
+    - Generate hashes on your server only
+    - Check browser dev tools for accidentally exposed keys
+    - Regenerate secret key if compromised
+  </Accordion>
+</AccordionGroup>
+
+## Benefits of Identity Verification
+
+- **Secure Authentication** - Cryptographically verified user identities
+- **Personalized Responses** - AI knows who it's talking to
+- **Audit Trail** - Track conversations by verified users
+- **Access Control** - Prevent unauthorized agent access
+- **User Context** - Rich metadata for better AI responses
+
+<Warning>
+  If you suspect your secret key has been compromised, contact support immediately to regenerate it.
+</Warning>

@@ -1,0 +1,208 @@
+---
+title: "Share Links"
+description: "Create direct links to your Mind-e AI agent for instant access"
+icon: "link"
+---
+
+## Overview
+
+Share links provide the easiest way to give people access to your AI agent. No setup required - just copy and share a URL.
+
+<Info>
+  Perfect for demos, customer support, team collaboration, or whenever you need quick access to your agent.
+</Info>
+
+## Getting Your Share Link
+
+<Steps>
+  <Step title="Navigate to Share">
+    Go to **Integration** → **Share** in your Mind-e dashboard
+  </Step>
+  <Step title="Copy Your Link">
+    Click the **Copy** button next to your unique share link
+  </Step>
+  <Step title="Share Anywhere">
+    Send the link via email, messaging apps, or social media
+  </Step>
+</Steps>
+
+Your share link looks like this:
+```
+https://mind-e.co/embed/chat.php?id=b29c2c13-ce50-4da9-84f9-dcd715d9da5a
+```
+
+<Note>
+  Anyone with this link can interact with your AI agent. All conversations will be recorded in your chat history.
+</Note>
+
+## How to Use Share Links
+
+### For Customer Support
+
+```text
+Hi! Thanks for contacting us. 
+Get instant help from our AI assistant: 
+[Your Share Link]
+
+Available 24/7 to answer your questions!
+```
+
+### For Team Testing
+
+```text
+Team,
+Please test our new AI agent here:
+[Your Share Link]
+
+Send feedback on how it handles common questions.
+```
+
+### In Email Signatures
+
+```html
+Need help? Chat with our AI: 
+<a href="[Your Share Link]">Get Instant Support</a>
+```
+
+## Common Use Cases
+
+<CardGroup cols={2}>
+  <Card title="Demos & Presentations" icon="presentation">
+    Show your agent to clients or stakeholders instantly
+  </Card>
+  <Card title="Customer Support" icon="headphones">
+    Provide 24/7 support without complex setup
+  </Card>
+  <Card title="Team Collaboration" icon="users">
+    Let team members test and provide feedback
+  </Card>
+  <Card title="Social Media" icon="share">
+    Share on Twitter, LinkedIn, or company pages
+  </Card>
+</CardGroup>
+
+## Customizing Your Experience
+
+### URL Parameters
+
+Add parameters to customize the chat experience:
+
+| Parameter | Description | Example |
+|-----------|-------------|---------|
+| `theme=dark` | Use dark theme | `&theme=dark` |
+| `welcome=Hello!` | Custom welcome message | `&welcome=Hello%20there!` |
+| `fullscreen=true` | Remove branding | `&fullscreen=true` |
+
+**Example with parameters:**
+```
+https://mind-e.co/embed/chat.php?id=your-id&theme=dark&welcome=How%20can%20I%20help?
+```
+
+### URL Shortening
+
+Create cleaner links with URL shorteners:
+
+<Tabs>
+  <Tab title="Bit.ly">
+    ```
+    https://bit.ly/company-ai-support
+    ```
+  </Tab>
+  <Tab title="TinyURL">
+    ```
+    https://tinyurl.com/company-agent
+    ```
+  </Tab>
+  <Tab title="Custom Domain">
+    ```
+    https://help.yourcompany.com/ai-chat
+    ```
+  </Tab>
+</Tabs>
+
+## QR Codes for Mobile Access
+
+Convert your share link to a QR code for easy mobile access:
+
+<Steps>
+  <Step title="Generate QR Code">
+    Use any QR code generator with your share link
+  </Step>
+  <Step title="Add to Materials">
+    Include on business cards, flyers, or store displays
+  </Step>
+  <Step title="Track Usage">
+    Monitor access through your Mind-e analytics
+  </Step>
+</Steps>
+
+## Security Considerations
+
+<Warning>
+  Share links are public by default. Anyone with the link can access your agent.
+</Warning>
+
+### Access Control Options
+
+- **Password Protection** - Require a password to access
+- **Time Restrictions** - Limit availability to business hours  
+- **Domain Restrictions** - Only allow access from specific websites
+- **Usage Limits** - Set maximum number of conversations
+
+Configure these in **Settings** → **Security** in your dashboard.
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="Provide Context" icon="message-square">
+    Always explain what the AI can help with when sharing the link
+  </Accordion>
+  
+  <Accordion title="Set Expectations" icon="clock">
+    Let users know response times and agent capabilities
+  </Accordion>
+  
+  <Accordion title="Monitor Usage" icon="bar-chart">
+    Check analytics regularly to improve your agent
+  </Accordion>
+  
+  <Accordion title="Test First" icon="check-circle">
+    Always test your link before sharing widely
+  </Accordion>
+</AccordionGroup>
+
+## Tracking Performance
+
+Monitor how your share links perform:
+
+- **Total Clicks** - Number of people who accessed your link
+- **Conversations Started** - How many actually chatted with your agent
+- **Popular Times** - When users are most active
+- **Referrer Sources** - Where your traffic comes from
+
+View analytics in **Analytics** → **Share Links** in your dashboard.
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Link not working" icon="alert-triangle">
+    - Check that your agent is active and published
+    - Verify the URL is complete and correct
+    - Test in incognito mode to rule out browser issues
+    - Ensure no access restrictions are blocking users
+  </Accordion>
+
+  <Accordion title="Agent not responding" icon="message-x">
+    - Verify agent has knowledge sources configured
+    - Check agent status in dashboard
+    - Test the agent in Playground first
+    - Look for error messages in the chat interface
+  </Accordion>
+
+  <Accordion title="Low engagement" icon="trending-down">
+    - Improve your sharing message with clear context
+    - Test different platforms and messaging
+    - Make the value proposition clearer
+    - Consider adding QR codes for mobile users
+  </Accordion>
+</AccordionGroup>

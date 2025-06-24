@@ -1,0 +1,205 @@
+---
+title: "Web Embed"
+description: "Add your Mind-e AI agent to any website with simple HTML code"
+icon: "globe"
+---
+
+## Overview
+
+Embed your Mind-e AI agent directly into your website using two methods:
+
+<CardGroup cols={2}>
+  <Card
+    title="Chat Widget"
+    icon="message-circle"
+  >
+    Floating chat bubble in bottom-right corner
+  </Card>
+  <Card
+    title="Iframe Embed"
+    icon="square"
+  >
+    Full-page chat interface embedded anywhere
+  </Card>
+</CardGroup>
+
+## Chat Widget (Recommended)
+
+The chat widget appears as a floating bubble that visitors can click to start chatting - perfect for customer support.
+
+### Getting Your Widget Code
+
+<Steps>
+  <Step title="Access Embed Settings">
+    Go to **Integration** → **Embed** in your Mind-e dashboard
+  </Step>
+  <Step title="Select Chat Box Embed">
+    Click on the **Chat Box Embed** tab
+  </Step>
+  <Step title="Copy the Script">
+    Click **Copy** to get your unique widget script
+  </Step>
+</Steps>
+
+### Installation
+
+Add the script code just before the closing `</body>` tag in your HTML:
+
+```html
+<script>
+(function(){
+  if(!window.mindeChat||!window.mindeChat("getState")==="initialized"){
+    window.mindeChat=(...args)=>{
+      if(!window.mindeChat.q){window.mindeChat.q=[]}
+      window.mindeChat.q.push(args)
+    };
+    const script=document.createElement("script");
+    script.src="https://mind-e.co/embed/chat-widget.js";
+    script.id="b29c2c13-ce50-4da9-84f9-dcd715d9da5a";
+    script.domain="mind-e.co";
+    document.body.appendChild(script);
+  }
+  if(document.readyState==="complete"){onLoad()}
+  else{window.addEventListener("load",onLoad)}
+})();
+</script>
+```
+
+<Note>
+  Replace the `script.id` with your actual agent ID from the dashboard
+</Note>
+
+### Widget Features
+
+- **24/7 Availability** - Always ready to help your visitors
+- **Mobile Responsive** - Works perfectly on all devices  
+- **Auto-positioning** - Appears in bottom-right corner by default
+- **No Installation** - Visitors don't need to install anything
+
+## Iframe Embed
+
+Embed a full chat interface directly into your webpage content.
+
+### Getting Your Iframe Code
+
+<Steps>
+  <Step title="Access Embed Settings">
+    Go to **Integration** → **Embed** in your Mind-e dashboard
+  </Step>
+  <Step title="Select Iframe Embed">
+    Click on the **iframe Embed** tab
+  </Step>
+  <Step title="Copy the Code">
+    Click **Copy** to get your iframe code
+  </Step>
+</Steps>
+
+### Installation
+
+```html
+<iframe
+  src="https://mind-e.co/embed/chat.php?id=b29c2c13-ce50-4da9-84f9-dcd715d9da5a"
+  width="100%"
+  style="height: 100%; min-height: 700px"
+  frameborder="0">
+</iframe>
+```
+
+### Customizing Size
+
+<Tabs>
+  <Tab title="Full Width">
+    ```html
+    <iframe 
+      src="your-agent-url" 
+      width="100%" 
+      style="height: 600px;" 
+      frameborder="0">
+    </iframe>
+    ```
+  </Tab>
+  <Tab title="Fixed Size">
+    ```html
+    <iframe 
+      src="your-agent-url" 
+      width="800" 
+      height="500" 
+      frameborder="0">
+    </iframe>
+    ```
+  </Tab>
+  <Tab title="Responsive">
+    ```html
+    <div style="position: relative; width: 100%; height: 0; padding-bottom: 75%;">
+      <iframe 
+        src="your-agent-url" 
+        style="position: absolute; width: 100%; height: 100%;" 
+        frameborder="0">
+      </iframe>
+    </div>
+    ```
+  </Tab>
+</Tabs>
+
+## Testing Your Integration
+
+<Steps>
+  <Step title="Load Your Page">
+    Open your website and verify the chat widget or iframe appears
+  </Step>
+  <Step title="Test Chat">
+    Send a test message to ensure your agent responds correctly
+  </Step>
+  <Step title="Check Mobile">
+    Test on mobile devices to ensure it works properly
+  </Step>
+  <Step title="Monitor Dashboard">
+    Check your Mind-e dashboard for conversation logs
+  </Step>
+</Steps>
+
+## Common Issues & Solutions
+
+<AccordionGroup>
+  <Accordion title="Widget not appearing" icon="alert-triangle">
+    - Ensure script is placed before `</body>` tag
+    - Check that your agent ID is correct
+    - Verify no browser extensions are blocking scripts
+    - Test in incognito mode
+  </Accordion>
+
+  <Accordion title="Iframe not loading" icon="square">
+    - Verify the iframe src URL is correct
+    - Ensure iframe has sufficient height (minimum 400px)
+    - Check for Content Security Policy restrictions
+    - Test the direct URL in a new browser tab
+  </Accordion>
+
+  <Accordion title="Agent not responding" icon="message-x">
+    - Check agent status in dashboard (should be active)
+    - Verify agent has knowledge sources configured
+    - Test agent in Playground first
+    - Look for error messages in browser console
+  </Accordion>
+</AccordionGroup>
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Performance" icon="zap">
+    Load the widget script asynchronously to avoid blocking page load
+  </Card>
+  <Card title="User Experience" icon="smile">
+    Test thoroughly on different devices and browsers
+  </Card>
+  <Card title="Security" icon="shield">
+    Keep your agent ID secure and monitor usage
+  </Card>
+  <Card title="Analytics" icon="bar-chart">
+    Monitor conversations to improve your agent
+  </Card>
+</CardGroup>
+
+<Warning>
+  Always test your integration in the Playground before deploying to production
+</Warning>

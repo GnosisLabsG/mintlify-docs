@@ -1,0 +1,288 @@
+---
+title: "Agent Settings"
+description: "Configure your Mind-e AI agent's behavior, knowledge, and voice features"
+icon: "settings"
+---
+
+## Overview
+
+Customize how your AI agent behaves, responds to users, and interacts across different platforms. These settings control the core personality and capabilities of your agent.
+
+<Info>
+  Changes to these settings apply to all integrations (web embed, messaging platforms, API, etc.)
+</Info>
+
+## Agent Behavior
+
+### System Prompt
+
+Define how your AI agent should behave and respond to users. This is the foundational instruction that shapes your agent's personality and responses.
+
+<Tabs>
+  <Tab title="Best Practices">
+    **Effective System Prompts:**
+    - Be specific about the agent's role and expertise
+    - Define the tone and communication style
+    - Set clear boundaries on what the agent can/cannot do
+    - Include examples of ideal responses
+    - Specify target audience (beginners, experts, etc.)
+  </Tab>
+  
+  <Tab title="Example Prompts">
+    ```
+    You are a helpful customer support agent for TechCorp. 
+    Respond in a friendly, professional tone. Always:
+    - Greet users warmly
+    - Ask clarifying questions when needed
+    - Provide step-by-step solutions
+    - Offer additional help before ending conversations
+    ```
+  </Tab>
+</Tabs>
+
+<Note>
+  You can write your system prompt in multiple languages. The agent will understand and respond appropriately based on the user's language.
+</Note>
+
+### Key Elements to Include
+
+<CardGroup cols={2}>
+  <Card title="Role Definition" icon="user-check">
+    Clearly state what your agent is (support bot, sales assistant, educator, etc.)
+  </Card>
+  <Card title="Communication Style" icon="message-square">
+    Define tone, formality level, and personality traits
+  </Card>
+  <Card title="Expertise Areas" icon="brain">
+    Specify what topics the agent should focus on
+  </Card>
+  <Card title="Limitations" icon="shield">
+    Set boundaries on what the agent cannot or should not do
+  </Card>
+</CardGroup>
+
+## Knowledge Base Restriction
+
+Control whether your agent uses only your provided content or can supplement with general knowledge.
+
+### Enable Context Restriction
+
+<Warning>
+  **Recommended:** Keep this enabled for accurate, knowledge-base-focused responses. Disable only if you want the AI to supplement with general knowledge when information isn't found in your content.
+</Warning>
+
+**When Enabled:**
+- Agent only answers from your uploaded knowledge base
+- Ensures consistent, controlled responses
+- Prevents hallucinations or incorrect information
+- Ideal for specific business knowledge
+
+**When Disabled:**
+- Agent can use general AI knowledge alongside your content
+- More flexible responses but less controlled
+- Risk of inconsistent or inaccurate information
+- Useful when you want broader conversational abilities
+
+<AccordionGroup>
+  <Accordion title="Use Cases for Enabled Restriction" icon="lock">
+    - **Customer Support:** Ensure answers match company policies
+    - **Product Documentation:** Stick to official information only
+    - **Compliance-sensitive Industries:** Maintain strict accuracy
+    - **Specialized Knowledge:** Focus on specific domain expertise
+  </Accordion>
+  
+  <Accordion title="Use Cases for Disabled Restriction" icon="unlock">
+    - **General Assistance:** Broader conversational AI
+    - **Educational Content:** Supplement with general knowledge
+    - **Creative Applications:** More flexible responses
+    - **Brainstorming:** Expand beyond provided content
+  </Accordion>
+</AccordionGroup>
+
+## Response Style
+
+Adjust how creative or focused your AI's responses should be.
+
+### Creativity Scale
+
+<Info>
+  This setting controls the balance between consistent, predictable responses (Reserved) and more varied, creative responses (Creative).
+</Info>
+
+| Setting | Description | Best For |
+|---------|-------------|----------|
+| **Reserved (0.0-0.3)** | Consistent, factual, predictable responses | Customer support, technical documentation |
+| **Balanced (0.4-0.6)** | Mix of consistency and creativity | General assistance, educational content |
+| **Creative (0.7-1.0)** | Varied, engaging, more personality | Marketing, creative writing, brainstorming |
+
+### Choosing the Right Style
+
+<Tabs>
+  <Tab title="Reserved Style">
+    **Good for:**
+    - Customer support agents
+    - Technical documentation
+    - Financial or legal advice
+    - Medical information
+    
+    **Characteristics:**
+    - Consistent responses
+    - Factual and direct
+    - Less variation in phrasing
+    - Professional tone
+  </Tab>
+  
+  <Tab title="Creative Style">
+    **Good for:**
+    - Marketing assistants
+    - Educational content
+    - Creative writing help
+    - Brainstorming sessions
+    
+    **Characteristics:**
+    - Varied responses
+    - More engaging language
+    - Creative examples
+    - Conversational tone
+  </Tab>
+</Tabs>
+
+## Voice Features
+
+Enable text-to-speech and voice message capabilities for your agent.
+
+### Text-to-Speech Settings
+
+Allow users to hear your agent's responses read aloud with a speech button.
+
+**Default Voice Provider:** ChatGPT's built-in text-to-speech
+
+#### Custom Voice with Eleven Labs (Optional)
+
+For premium voice experiences, integrate with Eleven Labs:
+
+<Steps>
+  <Step title="Get Eleven Labs Account">
+    Sign up at [ElevenLabs.io](https://elevenlabs.io) and get your API key
+  </Step>
+  <Step title="Add API Key">
+    Enter your Eleven Labs API key in the settings
+  </Step>
+  <Step title="Choose Voice">
+    Select a voice ID or browse available voices
+  </Step>
+  <Step title="Test & Save">
+    Test the voice and save your settings
+  </Step>
+</Steps>
+
+<Note>
+  Eleven Labs provides higher quality, more natural-sounding voices with various accents and languages.
+</Note>
+
+### Voice Message Settings
+
+Enable two-way voice communication with your agent.
+
+#### Enable Voice Messages
+- Users can send voice messages in the chat
+- Agent converts speech to text for processing
+- Supports multiple languages
+
+#### Auto-speech for Voice Messages
+- Agent automatically responds with voice when user sends voice message
+- Creates natural voice conversation flow
+- Uses your configured TTS settings
+
+<CardGroup cols={2}>
+  <Card title="Voice Input" icon="mic">
+    Users can speak instead of typing their questions
+  </Card>
+  <Card title="Voice Output" icon="volume-2">
+    Agent responds with spoken audio messages
+  </Card>
+</CardGroup>
+
+## Advanced Configuration
+
+### Multi-language Support
+
+<Info>
+  Your agent automatically detects user language and responds appropriately. System prompts can be written in multiple languages for better context.
+</Info>
+
+**Supported Features:**
+- Automatic language detection
+- Multi-language system prompts
+- Voice messages in different languages
+- Text-to-speech in user's language
+
+### Integration-Specific Settings
+
+Some settings may behave differently across integrations:
+
+| Feature | Web Widget | Messaging Apps | API |
+|---------|------------|----------------|-----|
+| **Voice Messages** | ✅ Full support | ⚠️ Platform dependent | ✅ Full support |
+| **TTS Button** | ✅ Available | ❌ Not applicable | ✅ Available |
+| **System Prompt** | ✅ Applied | ✅ Applied | ✅ Applied |
+| **Response Style** | ✅ Applied | ✅ Applied | ✅ Applied |
+
+## Best Practices
+
+<AccordionGroup>
+  <Accordion title="System Prompt Optimization" icon="edit">
+    - Test different prompts in the Playground
+    - Keep prompts focused and specific
+    - Update based on user feedback
+    - Include examples of ideal responses
+    - Define clear boundaries and limitations
+  </Accordion>
+  
+  <Accordion title="Knowledge Base Strategy" icon="database">
+    - Enable context restriction for business-critical applications
+    - Regularly update your knowledge base content
+    - Monitor conversations for gaps in information
+    - Consider disabling restriction for creative use cases
+  </Accordion>
+  
+  <Accordion title="Voice Configuration" icon="mic">
+    - Test voice features before enabling for users
+    - Choose appropriate voice for your brand
+    - Consider your audience's language preferences
+    - Monitor voice message quality and accuracy
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Agent not following system prompt" icon="alert-triangle">
+    - Ensure prompt is clear and specific
+    - Check knowledge base restriction settings
+    - Test in Playground before deploying
+    - Consider adjusting response style creativity
+  </Accordion>
+
+  <Accordion title="Voice features not working" icon="volume-x">
+    - Verify text-to-speech is enabled
+    - Check Eleven Labs API key if using custom voice
+    - Ensure browser supports voice features
+    - Test on different devices and browsers
+  </Accordion>
+
+  <Accordion title="Inconsistent responses" icon="shuffle">
+    - Lower creativity setting for more consistency
+    - Refine system prompt with specific instructions
+    - Enable knowledge base restriction
+    - Review and improve knowledge base content
+  </Accordion>
+</AccordionGroup>
+
+<Warning>
+  Always test your settings in the Playground before deploying to production. Settings changes apply to all active integrations immediately.
+</Warning>
+
+## Saving Your Changes
+
+Remember to click **Save Settings** after making any changes. Your new configuration will be applied to all integrations within a few minutes.

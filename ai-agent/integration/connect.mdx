@@ -1,0 +1,259 @@
+---
+title: "Messaging Platforms"
+description: "Connect your Mind-e AI agent to WhatsApp and Telegram"
+icon: "message-circle"
+---
+
+## Overview
+
+Extend your AI agent's reach by connecting it to popular messaging platforms where your audience already spends their time.
+
+<Info>
+  Messaging platform integrations allow your agent to provide 24/7 customer support directly through WhatsApp and Telegram.
+</Info>
+
+## Available Platforms
+
+<CardGroup cols={2}>
+  <Card title="WhatsApp Business" icon="message-circle" color="#25D366">
+    Connect to the world's most popular messaging app
+  </Card>
+  <Card title="Telegram Bot" icon="send" color="#0088cc">
+    Deploy as a bot on Telegram's global platform
+  </Card>
+</CardGroup>
+
+## WhatsApp Integration
+
+Let your users chat with your AI agent directly through WhatsApp.
+
+### Features
+
+<CardGroup cols={3}>
+  <Card title="24/7 Availability" icon="clock">
+    Always available to help your customers
+  </Card>
+  <Card title="No App Installation" icon="smartphone">
+    Users don't need to install anything new
+  </Card>
+  <Card title="Instant Responses" icon="zap">
+    Immediate AI-powered replies
+  </Card>
+</CardGroup>
+
+### Prerequisites
+
+<Warning>
+  **WhatsApp integration requires a verified WhatsApp Business account.** Your business phone number will be used as the contact point for your AI agent.
+</Warning>
+
+You'll need:
+- Verified WhatsApp Business account
+- Business phone number
+- Facebook Business Manager account
+
+### Setup Process
+
+<Steps>
+  <Step title="Access Integration">
+    Go to **Integration** → **Connect** in your Mind-e dashboard
+  </Step>
+  <Step title="Connect WhatsApp">
+    Click **Connect** next to WhatsApp
+  </Step>
+  <Step title="Verify Business Account">
+    Complete Facebook Business Manager verification
+  </Step>
+  <Step title="Authorize Access">
+    Allow Mind-e to manage your WhatsApp messages
+  </Step>
+  <Step title="Configure Settings">
+    Set welcome messages and business hours
+  </Step>
+</Steps>
+
+### WhatsApp Business Requirements
+
+<AccordionGroup>
+  <Accordion title="Business Verification" icon="check-circle">
+    - Valid business phone number
+    - Facebook Business Manager account
+    - Business information verification
+    - Compliance with WhatsApp Business policies
+  </Accordion>
+  
+  <Accordion title="Account Setup" icon="settings">
+    - WhatsApp Business API access
+    - Approved business profile
+    - Message template approval (for marketing)
+    - Webhook configuration
+  </Accordion>
+</AccordionGroup>
+
+### Learn More
+
+<Info>
+  For detailed WhatsApp Business setup instructions, visit the [WhatsApp Business documentation](https://business.whatsapp.com/).
+</Info>
+
+## Telegram Integration
+
+Connect your AI agent to Telegram and chat with users through this popular messaging platform.
+
+### Features
+
+<CardGroup cols={3}>
+  <Card title="Global Reach" icon="globe">
+    Available worldwide without restrictions
+  </Card>
+  <Card title="Group Chat Capabilities" icon="users">
+    Add your bot to group conversations
+  </Card>
+  <Card title="Bot-Friendly Ecosystem" icon="bot">
+    Rich features designed for bots
+  </Card>
+</CardGroup>
+
+### Prerequisites
+
+<Info>
+  **Telegram integration uses Telegram's Bot API.** You'll need to create a bot through BotFather and get an API token.
+</Info>
+
+You'll need:
+- Telegram account
+- Bot token from BotFather
+- Basic understanding of bot setup
+
+### Setup Process
+
+<Steps>
+  <Step title="Create Telegram Bot">
+    Open Telegram and message **@BotFather**
+  </Step>
+  <Step title="Get Bot Token">
+    Follow BotFather instructions to create your bot and get API token
+  </Step>
+  <Step title="Connect to Mind-e">
+    Go to **Integration** → **Connect** and click **Connect** next to Telegram
+  </Step>
+  <Step title="Enter Bot Token">
+    Paste your bot token from BotFather
+  </Step>
+  <Step title="Configure Bot">
+    Set up commands and responses
+  </Step>
+</Steps>
+
+### Creating Your Telegram Bot
+
+<Tabs>
+  <Tab title="Step 1: Find BotFather">
+    1. Open Telegram
+    2. Search for **@BotFather**
+    3. Start a conversation
+  </Tab>
+  
+  <Tab title="Step 2: Create Bot">
+    1. Send `/newbot` command
+    2. Choose a name for your bot
+    3. Choose a username ending in "bot"
+    4. Save the API token provided
+  </Tab>
+  
+  <Tab title="Step 3: Configure">
+    1. Set bot description with `/setdescription`
+    2. Add bot commands with `/setcommands`
+    3. Upload bot profile picture with `/setuserpic`
+  </Tab>
+</Tabs>
+
+### Learn More
+
+<Info>
+  For comprehensive bot creation guide, see [Telegram Bot documentation](https://core.telegram.org/bots).
+</Info>
+
+## Managing Your Connections
+
+### Monitoring Conversations
+
+All messaging platform conversations appear in your Mind-e dashboard:
+
+- **Real-time Activity** - See active chats across platforms
+- **Message History** - Complete conversation logs
+- **User Analytics** - Response times and satisfaction
+- **Performance Metrics** - Most common queries and effectiveness
+
+### Platform Comparison
+
+| Feature | WhatsApp | Telegram |
+|---------|----------|----------|
+| **Global Reach** | ✅ Worldwide | ✅ Worldwide |
+| **Business Focus** | ✅ Business-oriented | ⚠️ More casual |
+| **File Sharing** | ✅ Images, documents | ✅ All file types |
+| **Group Support** | ✅ Business groups | ✅ Full group features |
+| **Setup Complexity** | 🟡 Moderate | 🟢 Simple |
+| **Verification Required** | ✅ Business verification | ❌ No verification |
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Response Times" icon="clock">
+    Set clear expectations about when users can expect replies
+  </Card>
+  <Card title="Message Quality" icon="message-square">
+    Keep responses concise and helpful for mobile users
+  </Card>
+  <Card title="Business Hours" icon="calendar">
+    Configure availability settings to match your support hours
+  </Card>
+  <Card title="Compliance" icon="shield-check">
+    Follow platform policies and messaging regulations
+  </Card>
+</CardGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="WhatsApp connection failed" icon="alert-triangle">
+    - Verify WhatsApp Business account is approved
+    - Check Facebook Business Manager access
+    - Ensure business phone number is verified
+    - Contact WhatsApp support if issues persist
+  </Accordion>
+
+  <Accordion title="Telegram bot not responding" icon="bot">
+    - Verify bot token is correct and active
+    - Check bot permissions and settings
+    - Ensure webhook is properly configured
+    - Test bot directly with BotFather
+  </Accordion>
+
+  <Accordion title="Messages not syncing" icon="refresh-cw">
+    - Check internet connection stability
+    - Verify agent is active in dashboard
+    - Look for error messages in integration settings
+    - Contact support for persistent issues
+  </Accordion>
+</AccordionGroup>
+
+## Compliance & Policies
+
+### WhatsApp Business Policy
+
+- Obtain user consent before messaging
+- Follow approved message templates
+- Respect user privacy and opt-out requests
+- Comply with local messaging regulations
+
+### Telegram Guidelines
+
+- Follow Telegram Bot API terms
+- Respect group chat rules
+- Implement rate limiting
+- Don't spam users or groups
+
+<Warning>
+  Always comply with platform policies and local regulations regarding automated messaging and data privacy.
+</Warning>

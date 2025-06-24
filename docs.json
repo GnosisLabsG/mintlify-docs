@@ -2,7 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "Mind-e",
-   "icons": {
+  "icons": {
     "library": "lucide"
   },
   "colors": {
@@ -25,11 +25,29 @@
             ]
           },
           {
-            "group": "User Interfac",
+            "group": "User Interface",
             "pages": [
               "ai-agent/Playgorund",
               "ai-agent/Sources",
-              "ai-agent/ChatHistory"
+              "ai-agent/ChatHistory",
+              {
+                "group": "Integration",
+                "pages": [
+                  "ai-agent/integration/overview",
+                  "ai-agent/integration/embed",
+                  "ai-agent/integration/share",
+                  "ai-agent/integration/identity-verification",
+                  "ai-agent/integration/connect"
+                ]
+              },
+              {
+                "group": "Settings",
+                "pages": [
+                  "ai-agent/settings/settings",
+                  "ai-agent/settings/chat-interface-customization",
+                  "ai-agent/settings/security"
+                ]
+              }
             ]
           }
         ]
