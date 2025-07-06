@@ -1,5 +1,5 @@
 ---
-title: "Bulk User Data API"
+title: "Bulk User Data Upload API"
 description: "Upload documents to multiple user databases with flexible file mapping"
 icon: "upload"
 ---
@@ -8,13 +8,16 @@ icon: "upload"
 
 Bulk document upload allows you to distribute files to multiple user databases efficiently:
 
-- **Individual**: `POST/GET/DELETE /agents/{agent_id}/users/{user_id}/documents` (existing)
-- **Bulk Upload**: `POST /agents/{agent_id}/users/bulk-documents` (new)
-- **Bulk Status**: `GET /agents/{agent_id}/users/bulk-documents` (new)
+| Description | Method | Endpoint |
+|-------------|--------|----------|
+| Individual operations (existing) | **POST/GET/DELETE** | `/agents/{agent_id}/users/{user_id}/documents` |
+| Bulk upload (new) | **POST** | `/agents/{agent_id}/users/bulk-documents` |
+| Bulk status (new) | **GET** | `/agents/{agent_id}/users/bulk-documents` |
 
 ## Bulk Document Upload
 
-**Endpoint:** `POST /api/user-data/agents/{agent_id}/users/bulk-documents`
+**Method:** `POST`  
+**Endpoint:** `/api/user-data/agents/{agent_id}/users/bulk-documents`
 
 ### Request Format
 **Content-Type:** `multipart/form-data`
@@ -180,7 +183,8 @@ curl -X POST "https://mind-e.co/api/user-data/agents/school-agent/users/bulk-doc
 
 ## Bulk Status Check
 
-**Endpoint:** `GET /api/user-data/agents/{agent_id}/users/bulk-documents`
+**Method:** `GET`  
+**Endpoint:** `/api/user-data/agents/{agent_id}/users/bulk-documents`
 
 ### Method 1: Query Parameters
 ```bash

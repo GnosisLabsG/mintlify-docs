@@ -1,16 +1,20 @@
 ---
-title: "API Documentation"
+title: "API Overview"
 description: "Mind-e provides powerful APIs for creating personalized AI agents with user-specific knowledge bases. Perfect for schools, organizations, and platforms that need to provide personalized AI experiences to their users"
 icon: "code"
 ---
 
 ### Key Features
 
-- **User-Specific Databases** - Create isolated knowledge bases for each user
-- **Document Management** - Upload and manage documents (PDF, Word, HTML, Text)  
-- **Identity Verification** - Secure user authentication without storing passwords
-- **Vector Search** - AI-powered semantic search across user documents
-- **Real-time Processing** - Background document processing with status tracking
+<Icon icon="database" /> **User-Specific Databases** - Create isolated knowledge bases for each user
+
+<Icon icon="file-text" /> **Document Management** - Upload and manage documents (PDF, Word, HTML, Text)  
+
+<Icon icon="shield-check" /> **Identity Verification** - Secure user authentication without storing passwords
+
+<Icon icon="search" /> **Vector Search** - AI-powered semantic search across user documents
+
+<Icon icon="clock" /> **Real-time Processing** - Background document processing with status tracking
 
 ## Authentication
 
@@ -56,19 +60,27 @@ Authorization: Bearer sk-your-api-key-here
 
 ### User Database Management
 
-- **POST** `/user-databases/agents/{agent_id}/users/{user_id}/database` - Create user database (max 100 per agent)
-- **GET** `/user-databases/agents/{agent_id}/users/{user_id}/database` - Get user database info  
-- **DELETE** `/user-databases/agents/{agent_id}/users/{user_id}/database` - Delete user database
-- **GET** `/user-databases/agents/{agent_id}/users` - List all user databases for agent
-- **GET** `/user-databases/agents/{agent_id}/quota` - Get quota information for agent
-- **GET** `/user-databases/agents/{agent_id}/debug` - Get debug information for agent
+Manage user-specific knowledge databases for your agents:
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| **POST** | `/user-databases/agents/{agent_id}/users/{user_id}/database` | Create user database (max 100 per agent) |
+| **GET** | `/user-databases/agents/{agent_id}/users/{user_id}/database` | Get user database info |
+| **DELETE** | `/user-databases/agents/{agent_id}/users/{user_id}/database` | Delete user database |
+| **GET** | `/user-databases/agents/{agent_id}/users` | List all user databases for agent |
+| **GET** | `/user-databases/agents/{agent_id}/quota` | Get quota information for agent |
+| **GET** | `/user-databases/agents/{agent_id}/debug` | Get debug information for agent |
 
 ### User Data Upload
 
-- **POST** `/user-data/agents/{agent_id}/users/{user_id}/documents` - Upload document to user database
-- **GET** `/user-data/agents/{agent_id}/users/{user_id}/documents` - List user documents
-- **DELETE** `/user-data/agents/{agent_id}/users/{user_id}/documents?document_id={id}` - Delete user document
-- **GET** `/user-data/agents/{agent_id}/users/{user_id}/status` - Get document processing status
+Upload and manage documents in user-specific databases:
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| **POST** | `/user-data/agents/{agent_id}/users/{user_id}/documents` | Upload document to user database |
+| **GET** | `/user-data/agents/{agent_id}/users/{user_id}/documents` | List user documents |
+| **DELETE** | `/user-data/agents/{agent_id}/users/{user_id}/documents?document_id={id}` | Delete user document |
+| **GET** | `/user-data/agents/{agent_id}/users/{user_id}/status` | Get document processing status |
 
 ## HTTP Status Codes
 

@@ -24,20 +24,20 @@ Bulk API operations allow you to perform multiple database and document operatio
 
 Manage multiple user databases simultaneously:
 
-| Operation | Endpoint | Max Batch Size |
-|-----------|----------|----------------|
-| Create | `POST /user-databases/agents/{agent_id}/users/bulk-database` | 50 databases |
-| Retrieve | `GET /user-databases/agents/{agent_id}/users/bulk-database` | 100 databases |
-| Delete | `DELETE /user-databases/agents/{agent_id}/users/bulk-database` | 50 databases |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| **POST** | `/user-databases/agents/{agent_id}/users/bulk-database` | Create databases (max 50) |
+| **GET** | `/user-databases/agents/{agent_id}/users/bulk-database` | Retrieve databases (max 100) |
+| **DELETE** | `/user-databases/agents/{agent_id}/users/bulk-database` | Delete databases (max 50) |
 
 ### Bulk Document Operations
 
 Upload documents to multiple users in single requests:
 
-| Operation | Endpoint | Max Capacity |
-|-----------|----------|--------------|
-| Upload | `POST /user-data/agents/{agent_id}/users/bulk-documents` | 20 files per request |
-| Status Check | `GET /user-data/agents/{agent_id}/users/bulk-documents` | 100 users |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| **POST** | `/user-data/agents/{agent_id}/users/bulk-documents` | Upload documents (max 20 files) |
+| **GET** | `/user-data/agents/{agent_id}/users/bulk-documents` | Check status (max 100 users) |
 
 ## Common Use Cases
 

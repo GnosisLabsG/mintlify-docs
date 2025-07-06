@@ -8,14 +8,17 @@ icon: "database"
 
 Bulk database operations support complete database management for multiple users:
 
-- **Individual**: `POST/GET/DELETE /agents/{agent_id}/users/{user_id}/database` (existing)
-- **Bulk Creation**: `POST /agents/{agent_id}/users/bulk-database` (new)
-- **Bulk Retrieval**: `GET /agents/{agent_id}/users/bulk-database` (new)  
-- **Bulk Deletion**: `DELETE /agents/{agent_id}/users/bulk-database` (new)
+| Description | Method | Endpoint |
+|-------------|--------|----------|
+| Individual operations (existing) | **POST/GET/DELETE** | `/agents/{agent_id}/users/{user_id}/database` |
+| Bulk creation (new) | **POST** | `/agents/{agent_id}/users/bulk-database` |
+| Bulk retrieval (new) | **GET** | `/agents/{agent_id}/users/bulk-database` |
+| Bulk deletion (new) | **DELETE** | `/agents/{agent_id}/users/bulk-database` |
 
 ## Bulk Database Creation
 
-**Endpoint:** `POST /api/user_databases/agents/{agent_id}/users/bulk-database`
+**Method:** `POST`  
+**Endpoint:** `/api/user_databases/agents/{agent_id}/users/bulk-database`
 
 ### Headers
 ```
@@ -84,7 +87,8 @@ curl -X POST "https://mind-e.co/api/user_databases/agents/your-agent-id/users/bu
 
 ## Bulk Database Retrieval
 
-**Endpoint:** `GET /api/user_databases/agents/{agent_id}/users/bulk-database`
+**Method:** `GET`  
+**Endpoint:** `/api/user_databases/agents/{agent_id}/users/bulk-database`
 
 ### Method 1: Query Parameters
 ```bash
@@ -164,7 +168,8 @@ GET /api/user_databases/agents/{agent_id}/users/bulk-database?user_ids=user1,use
 
 ## Bulk Database Deletion
 
-**Endpoint:** `DELETE /api/user_databases/agents/{agent_id}/users/bulk-database`
+**Method:** `DELETE`  
+**Endpoint:** `/api/user_databases/agents/{agent_id}/users/bulk-database`
 
 <Warning>
 This action permanently deletes databases and all associated data. It cannot be undone.

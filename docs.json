@@ -64,20 +64,20 @@
           {
             "group": "javaScript SDK",
             "pages": [
-              "api-tab/Identity-Verification",
-              {
+              "api-tab/Identity-Verification"
+            ]
+          },
+          {
                 "group": "API-Documentation",
                 "pages": [
                   "api-tab/API-Documentation",
                   "api-tab/user-databases",
                   "api-tab/user-data",
-                  "api-tab/usage_limits",
                   "api-tab/bulk-operations",
                   "api-tab/Bulk Database API",
-                  "api-tab/Bulk User Data API"
+                  "api-tab/Bulk User Data API",
+                  "api-tab/usage_limits"
                 ]
-              }
-            ]
           },
           {
             "group": "Endpoint Examples",
