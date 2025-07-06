@@ -62,15 +62,21 @@
             ]
           },
           {
-            "group": "Identity Verification",
+            "group": "javaScript SDK",
             "pages": [
-              "api-tab/Identity-Verification"
-            ]
-          },
-          {
-            "group": "API",
-            "pages": [
-              "api-tab/API-Documentation"
+              "api-tab/Identity-Verification",
+              {
+                "group": "API-Documentation",
+                "pages": [
+                  "api-tab/API-Documentation",
+                  "api-tab/user-databases",
+                  "api-tab/user-data",
+                  "api-tab/usage_limits",
+                  "api-tab/bulk-operations",
+                  "api-tab/Bulk Database API",
+                  "api-tab/Bulk User Data API"
+                ]
+              }
             ]
           },
           {
@@ -86,28 +92,15 @@
       }
     ],
     "global": {
-      "anchors": [
-        {
-          "anchor": "Dashboard",
-          "href": "https://mind-e.co/dashboard",
-          "icon": "chart-line"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://discord.gg/mind-e",
-          "icon": "discord"
-        },
-        {
-          "anchor": "GitHub",
-          "href": "https://github.com/mind-e",
-          "icon": "github"
-        }
+      "anchors": 
+      [
+
       ]
     }
   },
   "logo": {
-    "light": "/logo/logo.png",
-    "dark": "/logo/logo.png",
+    "light": "/logo/light.png",
+    "dark": "/logo/dark.png",
     "href": "https://mind-e.co"
   },
   "navbar": {

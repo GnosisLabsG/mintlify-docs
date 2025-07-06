@@ -1,0 +1,466 @@
+---
+title: "Bulk User Data API"
+description: "Upload documents to multiple user databases with flexible file mapping"
+icon: "upload"
+---
+
+## Overview
+
+Bulk document upload allows you to distribute files to multiple user databases efficiently:
+
+- **Individual**: `POST/GET/DELETE /agents/{agent_id}/users/{user_id}/documents` (existing)
+- **Bulk Upload**: `POST /agents/{agent_id}/users/bulk-documents` (new)
+- **Bulk Status**: `GET /agents/{agent_id}/users/bulk-documents` (new)
+
+## Bulk Document Upload
+
+**Endpoint:** `POST /api/user-data/agents/{agent_id}/users/bulk-documents`
+
+### Request Format
+**Content-Type:** `multipart/form-data`
+
+### Form Fields
+
+**Files**
+Upload files with unique field names:
+- `file1` - First document
+- `file2` - Second document  
+- `curriculum_pdf` - Curriculum document
+- `homework_doc` - Homework document
+- etc.
+
+**Config (Required)**
+JSON configuration in the `config` form field:
+
+```json
+{
+  "mappings": [
+    {
+      "file_key": "curriculum_pdf",
+      "user_ids": ["student1", "student2", "student3", "student4", "student5"]
+    },
+    {
+      "file_key": "homework_doc", 
+      "user_ids": ["student1", "student2"]
+    }
+  ],
+  "options": {
+    "continue_on_error": true,
+    "duplicate_handling": "skip",
+    "max_files_per_user": 20,
+    "validate_databases_first": true
+  }
+}
+```
+
+### Upload Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `continue_on_error` | boolean | `true` | Continue processing even if some uploads fail |
+| `duplicate_handling` | string | `"skip"` | How to handle duplicate files: "skip", "overwrite", "error" |
+| `max_files_per_user` | integer | `20` | Maximum files per user in one batch |
+| `validate_databases_first` | boolean | `true` | Check all user databases exist before starting |
+
+## Usage Scenarios
+
+### Scenario 1: Upload Curriculum to All Students
+
+Upload `curriculum.pdf` to 10 students:
+
+```bash
+curl -X POST "https://mind-e.co/api/user-data/agents/school-agent/users/bulk-documents" \
+  -H "Authorization: Bearer your-api-key" \
+  -F "curriculum=@curriculum.pdf" \
+  -F 'config={
+    "mappings": [
+      {
+        "file_key": "curriculum",
+        "user_ids": ["student1","student2","student3","student4","student5","student6","student7","student8","student9","student10"]
+      }
+    ],
+    "options": {
+      "continue_on_error": true,
+      "duplicate_handling": "skip"
+    }
+  }'
+```
+
+### Response
+```json
+{
+  "success": true,
+  "data": {
+    "total_files": 1,
+    "total_uploads": 10,
+    "successful_uploads": 9,
+    "failed_uploads": 1,
+    "results": [
+      {
+        "file_key": "curriculum",
+        "filename": "curriculum.pdf",
+        "user_results": [
+          {
+            "user_id": "student1",
+            "success": true,
+            "document_id": "doc-123-abc",
+            "status": "processing"
+          },
+          {
+            "user_id": "student10", 
+            "success": false,
+            "error": "User database not found"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Scenario 2: Different Documents to Different Students
+
+Upload personalized homework to specific students:
+
+```bash
+curl -X POST "https://mind-e.co/api/user-data/agents/school-agent/users/bulk-documents" \
+  -H "Authorization: Bearer your-api-key" \
+  -F "homework1=@student1_homework.pdf" \
+  -F "homework2=@student2_homework.pdf" \
+  -F "shared_reading=@reading_material.pdf" \
+  -F 'config={
+    "mappings": [
+      {
+        "file_key": "homework1",
+        "user_ids": ["student1"]
+      },
+      {
+        "file_key": "homework2", 
+        "user_ids": ["student2"]
+      },
+      {
+        "file_key": "shared_reading",
+        "user_ids": ["student1", "student2", "student3"]
+      }
+    ]
+  }'
+```
+
+### Scenario 3: Mixed Upload
+
+Upload curriculum to all + individual assignments to specific students:
+
+```bash
+curl -X POST "https://mind-e.co/api/user-data/agents/school-agent/users/bulk-documents" \
+  -H "Authorization: Bearer your-api-key" \
+  -F "curriculum=@curriculum.pdf" \
+  -F "assignment1=@advanced_assignment.pdf" \
+  -F "assignment2=@basic_assignment.pdf" \
+  -F 'config={
+    "mappings": [
+      {
+        "file_key": "curriculum",
+        "user_ids": ["student1","student2","student3","student4","student5"]
+      },
+      {
+        "file_key": "assignment1",
+        "user_ids": ["student1", "student2"]
+      },
+      {
+        "file_key": "assignment2",
+        "user_ids": ["student3", "student4", "student5"]
+      }
+    ],
+    "options": {
+      "continue_on_error": true,
+      "duplicate_handling": "skip"
+    }
+  }'
+```
+
+## Bulk Status Check
+
+**Endpoint:** `GET /api/user-data/agents/{agent_id}/users/bulk-documents`
+
+### Method 1: Query Parameters
+```bash
+GET /agents/{agent_id}/users/bulk-documents?user_ids=student1,student2,student3
+```
+
+### Method 2: Request Body
+```json
+{
+  "user_ids": ["student1", "student2", "student3", "student4", "student5"]
+}
+```
+
+### Example Status Check
+
+<Tabs>
+  <Tab title="Query Parameters">
+    ```bash
+    curl -X GET "https://mind-e.co/api/user-data/agents/school-agent/users/bulk-documents?user_ids=student1,student2,student3,student4,student5" \
+      -H "Authorization: Bearer your-api-key"
+    ```
+  </Tab>
+  
+  <Tab title="Request Body">
+    ```bash
+    curl -X GET "https://mind-e.co/api/user-data/agents/school-agent/users/bulk-documents" \
+      -H "Authorization: Bearer your-api-key" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "user_ids": ["student1","student2","student3","student4","student5"]
+      }'
+    ```
+  </Tab>
+</Tabs>
+
+### Response
+```json
+{
+  "success": true,
+  "data": {
+    "total_users": 5,
+    "users_status": [
+      {
+        "user_id": "student1",
+        "total_documents": 3,
+        "status_summary": {
+          "processing": 1,
+          "completed": 2,
+          "error": 0
+        },
+        "recent_documents": [
+          {
+            "document_id": "doc-abc-123",
+            "filename": "curriculum.pdf",
+            "status": "completed",
+            "uploaded_at": "2025-06-19T10:30:00Z"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Complete JavaScript Example
+
+```javascript
+class BulkDocumentManager {
+  constructor(apiKey, agentId) {
+    this.apiKey = apiKey;
+    this.agentId = agentId;
+    this.baseUrl = 'https://mind-e.co/api/user-data';
+  }
+
+  async uploadBulkDocuments(files, mappings, options = {}) {
+    const formData = new FormData();
+    
+    // Add files
+    Object.entries(files).forEach(([key, file]) => {
+      formData.append(key, file);
+    });
+    
+    // Add config
+    formData.append('config', JSON.stringify({
+      mappings,
+      options: {
+        continue_on_error: true,
+        duplicate_handling: "skip",
+        ...options
+      }
+    }));
+
+    const response = await fetch(`${this.baseUrl}/agents/${this.agentId}/users/bulk-documents`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${this.apiKey}` },
+      body: formData
+    });
+    
+    return response.json();
+  }
+
+  async getBulkStatus(userIds) {
+    const response = await fetch(`${this.baseUrl}/agents/${this.agentId}/users/bulk-documents`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ user_ids: userIds })
+    });
+    
+    return response.json();
+  }
+
+  async waitForProcessing(userIds, timeout = 300000) {
+    const startTime = Date.now();
+    
+    while (Date.now() - startTime < timeout) {
+      const status = await this.getBulkStatus(userIds);
+      
+      const allCompleted = status.data.users_status.every(user => 
+        user.status_summary.processing === 0
+      );
+      
+      if (allCompleted) {
+        return status;
+      }
+      
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    }
+    
+    throw new Error('Processing timeout');
+  }
+}
+
+// Usage example
+const manager = new BulkDocumentManager('your-api-key', 'school-agent');
+
+// Upload curriculum to all students
+async function distributeCurriculum() {
+  const students = ['student1', 'student2', 'student3', 'student4', 'student5'];
+  const files = {
+    curriculum: new File([curriculumData], 'curriculum.pdf'),
+    syllabus: new File([syllabusData], 'syllabus.pdf')
+  };
+  
+  const mappings = [
+    {
+      file_key: 'curriculum',
+      user_ids: students
+    },
+    {
+      file_key: 'syllabus', 
+      user_ids: students.slice(0, 3) // Only first 3 students
+    }
+  ];
+
+  try {
+    const result = await manager.uploadBulkDocuments(files, mappings);
+    console.log(`Upload started: ${result.data.successful_uploads} successful`);
+    
+    // Wait for processing
+    const finalStatus = await manager.waitForProcessing(students);
+    console.log('All documents processed successfully');
+    
+    return finalStatus;
+  } catch (error) {
+    console.error('Upload failed:', error);
+    throw error;
+  }
+}
+```
+
+## File Mapping Strategies
+
+### One-to-Many Distribution
+Single file to multiple users:
+```json
+{
+  "mappings": [
+    {
+      "file_key": "curriculum",
+      "user_ids": ["student1", "student2", "student3", "student4", "student5"]
+    }
+  ]
+}
+```
+
+### Selective Distribution
+Different files to different user groups:
+```json
+{
+  "mappings": [
+    {
+      "file_key": "advanced_material",
+      "user_ids": ["advanced_student1", "advanced_student2"]
+    },
+    {
+      "file_key": "basic_material",
+      "user_ids": ["basic_student1", "basic_student2", "basic_student3"]
+    }
+  ]
+}
+```
+
+### Mixed Distribution
+Combination of shared and individual files:
+```json
+{
+  "mappings": [
+    {
+      "file_key": "shared_curriculum",
+      "user_ids": ["student1", "student2", "student3"]
+    },
+    {
+      "file_key": "student1_homework",
+      "user_ids": ["student1"]
+    },
+    {
+      "file_key": "student2_homework", 
+      "user_ids": ["student2"]
+    }
+  ]
+}
+```
+
+## Error Handling
+
+Handle upload failures and processing issues:
+
+```javascript
+async function robustBulkUpload(files, mappings) {
+  try {
+    const result = await manager.uploadBulkDocuments(files, mappings);
+    
+    // Check for upload failures
+    if (result.data.failed_uploads > 0) {
+      console.log('Some uploads failed:');
+      result.data.results.forEach(fileResult => {
+        fileResult.user_results
+          .filter(ur => !ur.success)
+          .forEach(ur => console.log(`${ur.user_id}: ${ur.error}`));
+      });
+    }
+    
+    return result;
+  } catch (error) {
+    if (error.message.includes('file too large')) {
+      console.log('File size exceeded. Split into smaller files.');
+    } else if (error.message.includes('quota exceeded')) {
+      console.log('Upload quota exceeded. Try again later.');
+    }
+    throw error;
+  }
+}
+```
+
+## Best Practices
+
+<Icon icon="upload" /> **File Validation** - Validate file types and sizes before upload
+
+<Icon icon="users" /> **User Verification** - Ensure all target users have active databases
+
+<Icon icon="retry" /> **Error Resilience** - Use `continue_on_error: true` for robust processing
+
+<Icon icon="clock" /> **Processing Time** - Large files take longer to process; implement status monitoring
+
+## Troubleshooting
+
+**File Upload Failures**
+- Check file sizes (max 10MB per file)
+- Verify supported formats (PDF, DOC, DOCX, TXT, HTML)
+- Ensure all target user databases exist
+
+**Processing Delays**  
+- Large files take 1-3 minutes to process
+- Monitor status with bulk status endpoint
+- Implement timeout handling for very large batches
+
+**Quota Issues**
+- Check file upload limits before bulk operations
+- Process in smaller batches if approaching limits
+- Monitor rate limits (10 requests/minute for bulk uploads)

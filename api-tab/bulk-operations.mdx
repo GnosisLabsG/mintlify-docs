@@ -1,0 +1,169 @@
+---
+title: "Bulk API Operations"
+description: "Efficient batch processing for large-scale user database and document management"
+icon: "layers"
+---
+
+## Overview
+
+Bulk API operations allow you to perform multiple database and document operations in single requests, dramatically improving efficiency for large-scale applications. Instead of making hundreds of individual API calls, process multiple users simultaneously.
+
+## Key Benefits
+
+<Icon icon="zap" /> **Performance** - Reduce API calls by up to 100x when managing multiple users
+
+<Icon icon="gauge" /> **Rate Limits** - More efficient use of rate limits with batch processing
+
+<Icon icon="shield-check" /> **Reliability** - Built-in error handling and retry mechanisms
+
+<Icon icon="trending-up" /> **Scalability** - Handle enterprise-scale operations with ease
+
+## Available Operations
+
+### Bulk Database Management
+
+Manage multiple user databases simultaneously:
+
+| Operation | Endpoint | Max Batch Size |
+|-----------|----------|----------------|
+| Create | `POST /user-databases/agents/{agent_id}/users/bulk-database` | 50 databases |
+| Retrieve | `GET /user-databases/agents/{agent_id}/users/bulk-database` | 100 databases |
+| Delete | `DELETE /user-databases/agents/{agent_id}/users/bulk-database` | 50 databases |
+
+### Bulk Document Operations
+
+Upload documents to multiple users in single requests:
+
+| Operation | Endpoint | Max Capacity |
+|-----------|----------|--------------|
+| Upload | `POST /user-data/agents/{agent_id}/users/bulk-documents` | 20 files per request |
+| Status Check | `GET /user-data/agents/{agent_id}/users/bulk-documents` | 100 users |
+
+## Common Use Cases
+
+<AccordionGroup>
+  <Accordion title="Educational Platforms" icon="graduation-cap">
+    Create databases for entire classrooms and distribute curriculum to all students simultaneously
+  </Accordion>
+  
+  <Accordion title="Enterprise Onboarding" icon="building">
+    Set up personalized AI agents for new employee batches with company documentation
+  </Accordion>
+  
+  <Accordion title="Multi-tenant Applications" icon="users">
+    Provision isolated databases for new customer batches during system migrations
+  </Accordion>
+  
+  <Accordion title="Content Distribution" icon="share">
+    Deploy updated training materials or policy documents across user bases
+  </Accordion>
+</AccordionGroup>
+
+## Rate Limits
+
+Bulk operations have specific rate limits optimized for batch processing:
+
+- **Bulk Database Operations**: 20 requests/minute
+- **Bulk Document Operations**: 10 requests/minute  
+- **Individual Operations**: 100 requests/minute
+
+<Note>
+Bulk operations count as single requests regardless of batch size, making them highly efficient for large-scale operations.
+</Note>
+
+## Request Structure
+
+### Database Operations
+
+```json
+{
+  "user_ids": ["user1", "user2", "user3"],
+  "options": {
+    "continue_on_error": true,
+    "max_batch_size": 50
+  }
+}
+```
+
+### Document Operations
+
+```javascript
+// Multipart form data
+FormData:
+  file1: curriculum.pdf
+  file2: homework.docx
+  config: {
+    "mappings": [
+      {
+        "file_key": "file1", 
+        "user_ids": ["student1", "student2"]
+      }
+    ]
+  }
+```
+
+## Error Handling
+
+Bulk operations include robust error handling:
+
+- **Partial Success**: Continue processing even if individual operations fail
+- **Detailed Responses**: Get success/failure status for each item in batch
+- **Quota Validation**: Pre-check quotas before starting operations
+- **Rollback Options**: Available for critical operations
+
+## Performance Guidelines
+
+<Steps>
+  <Step title="Optimize Batch Sizes">
+    Use maximum allowed batch sizes for best performance
+  </Step>
+  <Step title="Implement Retry Logic">
+    Handle rate limits with exponential backoff
+  </Step>
+  <Step title="Monitor Progress">
+    Use status endpoints to track large operations
+  </Step>
+  <Step title="Validate First">
+    Check quotas and permissions before bulk operations
+  </Step>
+</Steps>
+
+## Example Scenarios
+
+### School Onboarding (100 Students)
+
+```bash
+# Create databases for entire class
+curl -X POST "/user-databases/agents/{agent_id}/users/bulk-database" \
+  -d '{"user_ids": ["student1"..."student100"]}'
+
+# Upload curriculum to all students  
+curl -X POST "/user-data/agents/{agent_id}/users/bulk-documents" \
+  -F "curriculum=@syllabus.pdf" \
+  -F 'config={"mappings":[{"file_key":"curriculum","user_ids":["student1"..."student100"]}]}'
+```
+
+### Enterprise Document Distribution
+
+```bash
+# Distribute policy update to departments
+curl -X POST "/user-data/agents/{agent_id}/users/bulk-documents" \
+  -F "policy=@new_policy.pdf" \
+  -F "handbook=@employee_handbook.pdf" \
+  -F 'config={"mappings":[
+    {"file_key":"policy","user_ids":["dept_a_users"]},
+    {"file_key":"handbook","user_ids":["new_employees"]}
+  ]}'
+```
+
+## Getting Started
+
+1. **Review Individual APIs** - Understand single-user operations first
+2. **Check Quotas** - Ensure sufficient limits for bulk operations  
+3. **Start Small** - Test with small batches before scaling
+4. **Implement Monitoring** - Track operation status and handle errors
+5. **Scale Gradually** - Increase batch sizes based on performance
+
+<Warning>
+Always validate user IDs and file requirements before bulk operations. Failed validations can result in entire batch rejections.
+</Warning>

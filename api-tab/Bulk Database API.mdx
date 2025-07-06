@@ -1,0 +1,358 @@
+---
+title: "Bulk Database API"
+description: "Create, retrieve, and delete multiple user databases in single API calls"
+icon: "database"
+---
+
+## Overview
+
+Bulk database operations support complete database management for multiple users:
+
+- **Individual**: `POST/GET/DELETE /agents/{agent_id}/users/{user_id}/database` (existing)
+- **Bulk Creation**: `POST /agents/{agent_id}/users/bulk-database` (new)
+- **Bulk Retrieval**: `GET /agents/{agent_id}/users/bulk-database` (new)  
+- **Bulk Deletion**: `DELETE /agents/{agent_id}/users/bulk-database` (new)
+
+## Bulk Database Creation
+
+**Endpoint:** `POST /api/user_databases/agents/{agent_id}/users/bulk-database`
+
+### Headers
+```
+Authorization: Bearer your-api-key
+Content-Type: application/json
+```
+
+### Request Body
+```json
+{
+  "user_ids": ["user1", "user2", "user3", "user4", "user5"],
+  "options": {
+    "fail_on_existing": false,
+    "continue_on_error": true,
+    "max_batch_size": 50,
+    "validate_quota_first": true
+  }
+}
+```
+
+### Creation Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `fail_on_existing` | boolean | `false` | If true, treats existing databases as errors |
+| `continue_on_error` | boolean | `true` | If true, continues processing even if some users fail |
+| `max_batch_size` | integer | `50` | Maximum databases to create in one request (1-100) |
+| `validate_quota_first` | boolean | `true` | Checks quota before starting any operations |
+
+### Example Request
+```bash
+curl -X POST "https://mind-e.co/api/user_databases/agents/your-agent-id/users/bulk-database" \
+  -H "Authorization: Bearer your-api-key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_ids": ["student1", "student2", "student3", "student4", "student5", 
+                 "student6", "student7", "student8", "student9", "student10"]
+  }'
+```
+
+### Response
+```json
+{
+  "success": true,
+  "data": {
+    "total_requested": 10,
+    "successful": 9,
+    "failed": 1,
+    "quota_remaining": 90,
+    "results": [
+      {
+        "user_id": "student1",
+        "success": true,
+        "user_database_id": "abc-123-def",
+        "status": "active"
+      },
+      {
+        "user_id": "student2",
+        "success": false,
+        "error": "Database already exists"
+      }
+    ]
+  }
+}
+```
+
+## Bulk Database Retrieval
+
+**Endpoint:** `GET /api/user_databases/agents/{agent_id}/users/bulk-database`
+
+### Method 1: Query Parameters
+```bash
+GET /api/user_databases/agents/{agent_id}/users/bulk-database?user_ids=user1,user2,user3&include_metadata=true
+```
+
+### Method 2: Request Body
+```json
+{
+  "user_ids": ["user1", "user2", "user3", "user4", "user5"],
+  "options": {
+    "include_missing": true,
+    "include_metadata": true,
+    "max_batch_size": 100
+  }
+}
+```
+
+### Retrieval Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `include_missing` | boolean | `true` | Include information about missing databases in results |
+| `include_metadata` | boolean | `true` | Include detailed metadata for found databases |
+| `max_batch_size` | integer | `100` | Maximum databases to retrieve in one request (1-200) |
+
+### Example Requests
+
+<Tabs>
+  <Tab title="Query Parameters">
+    ```bash
+    curl -X GET "https://mind-e.co/api/user_databases/agents/your-agent-id/users/bulk-database?user_ids=student1,student2,student3,student4,student5" \
+      -H "Authorization: Bearer your-api-key"
+    ```
+  </Tab>
+  
+  <Tab title="Request Body">
+    ```bash
+    curl -X GET "https://mind-e.co/api/user_databases/agents/your-agent-id/users/bulk-database" \
+      -H "Authorization: Bearer your-api-key" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "user_ids": ["student1", "student2", "student3", "student4", "student5"],
+        "options": {
+          "include_metadata": true,
+          "include_missing": true
+        }
+      }'
+    ```
+  </Tab>
+</Tabs>
+
+### Response
+```json
+{
+  "success": true,
+  "data": {
+    "total_requested": 5,
+    "found": 4,
+    "missing": 1,
+    "databases": [
+      {
+        "user_id": "student1",
+        "user_database_id": "abc-123",
+        "status": "active",
+        "created_at": "2025-06-19T10:30:00Z",
+        "document_count": 3
+      },
+      {
+        "user_id": "student5",
+        "status": "missing"
+      }
+    ]
+  }
+}
+```
+
+## Bulk Database Deletion
+
+**Endpoint:** `DELETE /api/user_databases/agents/{agent_id}/users/bulk-database`
+
+<Warning>
+This action permanently deletes databases and all associated data. It cannot be undone.
+</Warning>
+
+### Request Body
+```json
+{
+  "user_ids": ["user1", "user2", "user3", "user4", "user5"],
+  "options": {
+    "confirm_deletion": true,
+    "fail_on_missing": false,
+    "continue_on_error": true,
+    "max_batch_size": 50
+  }
+}
+```
+
+### Deletion Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `confirm_deletion` | boolean | **required** | Must be true - Safety confirmation for bulk deletion |
+| `fail_on_missing` | boolean | `false` | If true, treats missing databases as errors |
+| `continue_on_error` | boolean | `true` | If true, continues processing even if some users fail |
+| `max_batch_size` | integer | `50` | Maximum databases to delete in one request (1-100) |
+
+### Example Request
+```bash
+curl -X DELETE "https://mind-e.co/api/user_databases/agents/your-agent-id/users/bulk-database" \
+  -H "Authorization: Bearer your-api-key" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_ids": ["student1", "student2", "student3", "student4", "student5", 
+                 "student6", "student7", "student8", "student9", "student10"],
+    "options": {
+      "confirm_deletion": true
+    }
+  }'
+```
+
+### Response
+```json
+{
+  "success": true,
+  "data": {
+    "total_requested": 10,
+    "successful": 9,
+    "failed": 1,
+    "results": [
+      {
+        "user_id": "student1",
+        "success": true,
+        "message": "Database deleted successfully"
+      },
+      {
+        "user_id": "student10",
+        "success": false,
+        "error": "Database not found"
+      }
+    ]
+  }
+}
+```
+
+## Complete Example
+
+School database management for 10 students:
+
+```javascript
+class BulkDatabaseManager {
+  constructor(apiKey, agentId) {
+    this.apiKey = apiKey;
+    this.agentId = agentId;
+    this.baseUrl = 'https://mind-e.co/api/user_databases';
+  }
+
+  async createBulkDatabases(userIds) {
+    const response = await fetch(`${this.baseUrl}/agents/${this.agentId}/users/bulk-database`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_ids: userIds,
+        options: {
+          continue_on_error: true,
+          validate_quota_first: true
+        }
+      })
+    });
+    return response.json();
+  }
+
+  async getBulkDatabases(userIds) {
+    const response = await fetch(`${this.baseUrl}/agents/${this.agentId}/users/bulk-database`, {
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_ids: userIds,
+        options: { include_metadata: true }
+      })
+    });
+    return response.json();
+  }
+
+  async deleteBulkDatabases(userIds) {
+    const response = await fetch(`${this.baseUrl}/agents/${this.agentId}/users/bulk-database`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${this.apiKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_ids: userIds,
+        options: { confirm_deletion: true }
+      })
+    });
+    return response.json();
+  }
+}
+
+// Usage example
+const manager = new BulkDatabaseManager('your-api-key', 'school-agent');
+const students = ['student1', 'student2', 'student3', 'student4', 'student5', 
+                  'student6', 'student7', 'student8', 'student9', 'student10'];
+
+// Create databases for entire class
+const createResult = await manager.createBulkDatabases(students);
+console.log(`Created ${createResult.data.successful} databases`);
+
+// Check database status
+const statusResult = await manager.getBulkDatabases(students);
+console.log(`Found ${statusResult.data.found} active databases`);
+
+// Cleanup (use with caution)
+// const deleteResult = await manager.deleteBulkDatabases(['inactive_student']);
+```
+
+## Error Handling
+
+Handle partial failures and quota issues:
+
+```javascript
+async function createDatabasesSafely(userIds) {
+  try {
+    const result = await manager.createBulkDatabases(userIds);
+    
+    if (result.data.failed > 0) {
+      console.log(`${result.data.failed} operations failed:`);
+      result.data.results
+        .filter(r => !r.success)
+        .forEach(r => console.log(`${r.user_id}: ${r.error}`));
+    }
+    
+    return result;
+  } catch (error) {
+    if (error.message.includes('quota exceeded')) {
+      console.log('Quota exceeded. Process in smaller batches.');
+    }
+    throw error;
+  }
+}
+```
+
+## Best Practices
+
+<Icon icon="database" /> **Batch Size** - Use maximum batch sizes (50 for create/delete, 100 for retrieve)
+
+<Icon icon="shield-check" /> **Quota Validation** - Always validate quota before bulk operations
+
+<Icon icon="retry" /> **Error Handling** - Use `continue_on_error: true` for robust processing
+
+<Icon icon="clock" /> **Rate Limits** - Bulk operations count as single requests (20/minute)
+
+## Troubleshooting
+
+**Quota Exceeded**
+- Check quota before bulk operations
+- Process in smaller batches if near limits
+
+**Partial Failures**
+- Review individual results in response data
+- Retry failed operations separately
+
+**Large Scale Operations**
+- Process during off-peak hours
+- Use maximum allowed batch sizes for efficiency

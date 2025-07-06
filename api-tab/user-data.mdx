@@ -1,0 +1,410 @@
+---
+title: "User Data API"
+description: "Upload and manage documents in user-specific databases. Each user's documents are processed and stored in their isolated database for AI-powered search and retrieval"
+icon: "file-text"
+---
+
+<Info>
+**Supported Formats**: PDF, DOC, DOCX, TXT, HTML, HTM  
+**Max File Size**: 10MB per document
+</Info>
+
+## Upload Document
+
+Uploads a document to a user's database for processing.
+
+**Endpoint**: `POST /user-data/agents/{agent_id}/users/{user_id}/documents`
+
+### Parameters
+
+- `agent_id` (string): Your agent ID from Mind-e dashboard
+- `user_id` (string): User identifier for the target database
+- `file` (file): Document file to upload
+
+<CodeGroup>
+```bash cURL
+curl -X POST "https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents" \
+  -H "Authorization: Bearer sk-your-api-key" \
+  -F "file=@student_schedule.pdf"
+```
+
+```javascript JavaScript
+const formData = new FormData();
+formData.append('file', fileInput.files[0]);
+
+const response = await fetch('https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer sk-your-api-key'
+  },
+  body: formData
+});
+```
+
+```python Python
+import requests
+
+files = {'file': open('student_schedule.pdf', 'rb')}
+response = requests.post(
+    'https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents',
+    headers={'Authorization': 'Bearer sk-your-api-key'},
+    files=files
+)
+```
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "document_id": "doc-abc-123",
+    "agent_id": "95ed0653-44d2-4c32-8add-0e7022691068",
+    "user_id": "student_123",
+    "filename": "student_schedule.pdf",
+    "size": 245760,
+    "type": "pdf",
+    "status": "processing",
+    "message": "Document uploaded successfully. Processing started."
+  }
+}
+```
+
+## List User Documents
+
+Lists all documents for a user.
+
+**Endpoint**: `GET /user-data/agents/{agent_id}/users/{user_id}/documents`
+
+<CodeGroup>
+```bash cURL
+curl -X GET "https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents" \
+  -H "Authorization: Bearer sk-your-api-key"
+```
+
+```javascript JavaScript
+const response = await fetch('https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents', {
+  headers: {
+    'Authorization': 'Bearer sk-your-api-key'
+  }
+});
+```
+
+```python Python
+response = requests.get(
+    'https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents',
+    headers={'Authorization': 'Bearer sk-your-api-key'}
+)
+```
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "agent_id": "95ed0653-44d2-4c32-8add-0e7022691068",
+    "user_id": "student_123",
+    "total_documents": 3,
+    "documents": [
+      {
+        "document_id": "doc-abc-123",
+        "filename": "student_schedule.pdf",
+        "file_type": "pdf",
+        "file_size": 245760,
+        "status": "completed",
+        "uploaded_at": "2025-06-19T10:45:00Z",
+        "updated_at": "2025-06-19T10:47:30Z"
+      }
+    ]
+  }
+}
+```
+
+## Get Processing Status
+
+Check the processing status of user documents.
+
+**Endpoint**: `GET /user-data/agents/{agent_id}/users/{user_id}/status`
+
+```bash
+curl -X GET "https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/status" \
+  -H "Authorization: Bearer sk-your-api-key"
+```
+
+### Response
+
+```json
+{
+  "success": true,
+  "data": {
+    "agent_id": "95ed0653-44d2-4c32-8add-0e7022691068",
+    "user_id": "student_123",
+    "total_documents": 5,
+    "status_summary": {
+      "processing": 1,
+      "completed": 3,
+      "error": 1,
+      "cancelled": 0
+    },
+    "recent_documents": [
+      {
+        "document_id": "doc-abc-123",
+        "filename": "Chapter1.pdf",
+        "status": "completed",
+        "uploaded_at": "2025-06-19T22:30:00Z"
+      }
+    ],
+    "last_updated": "2025-06-19T23:45:30Z"
+  }
+}
+```
+
+## Delete Document
+
+Deletes a document and all associated data.
+
+**Endpoint**: `DELETE /user-data/agents/{agent_id}/users/{user_id}/documents?document_id={document_id}`
+
+<Warning>
+This action permanently deletes the document and all associated processed data. It cannot be undone.
+</Warning>
+
+<CodeGroup>
+```bash cURL
+curl -X DELETE "https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents?document_id=doc-abc-123" \
+  -H "Authorization: Bearer sk-your-api-key"
+```
+
+```javascript JavaScript
+const response = await fetch('https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents?document_id=doc-abc-123', {
+  method: 'DELETE',
+  headers: {
+    'Authorization': 'Bearer sk-your-api-key'
+  }
+});
+```
+
+```python Python
+response = requests.delete(
+    'https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents',
+    headers={'Authorization': 'Bearer sk-your-api-key'},
+    params={'document_id': 'doc-abc-123'}
+)
+```
+</CodeGroup>
+
+### Response
+
+```json
+{
+  "success": true,
+  "message": "Document deleted successfully"
+}
+```
+
+## Document Processing Status
+
+Documents go through several processing stages:
+
+| Status | Description |
+|--------|-------------|
+| **processing** | Document is being processed and indexed |
+| **completed** | Document is fully processed and available for search |
+| **error** | Processing failed (check error message) |
+| **cancelled** | Processing was cancelled |
+
+<Note>
+Processing time varies by document size and complexity. PDFs and Word documents typically take 1-3 minutes to process.
+</Note>
+
+## Example: Complete Document Management
+
+```javascript
+// Complete example: Upload, monitor, and manage documents
+class UserDocumentManager {
+  constructor(apiKey, agentId) {
+    this.apiKey = apiKey;
+    this.agentId = agentId;
+    this.baseUrl = 'https://mind-e.co/api/user-data';
+  }
+
+  async uploadDocument(userId, file) {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const response = await fetch(`${this.baseUrl}/agents/${this.agentId}/users/${userId}/documents`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${this.apiKey}` },
+      body: formData
+    });
+    return response.json();
+  }
+
+  async getDocuments(userId) {
+    const response = await fetch(`${this.baseUrl}/agents/${this.agentId}/users/${userId}/documents`, {
+      headers: { 'Authorization': `Bearer ${this.apiKey}` }
+    });
+    return response.json();
+  }
+
+  async getProcessingStatus(userId) {
+    const response = await fetch(`${this.baseUrl}/agents/${this.agentId}/users/${userId}/status`, {
+      headers: { 'Authorization': `Bearer ${this.apiKey}` }
+    });
+    return response.json();
+  }
+
+  async deleteDocument(userId, documentId) {
+    const response = await fetch(`${this.baseUrl}/agents/${this.agentId}/users/${userId}/documents?document_id=${documentId}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${this.apiKey}` }
+    });
+    return response.json();
+  }
+
+  async waitForProcessing(userId, documentId, maxWaitTime = 300000) {
+    const startTime = Date.now();
+    
+    while (Date.now() - startTime < maxWaitTime) {
+      const status = await this.getProcessingStatus(userId);
+      const document = status.data.recent_documents.find(doc => doc.document_id === documentId);
+      
+      if (document && document.status === 'completed') {
+        return { success: true, document };
+      }
+      
+      if (document && document.status === 'error') {
+        return { success: false, error: 'Processing failed' };
+      }
+      
+      // Wait 5 seconds before checking again
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    }
+    
+    return { success: false, error: 'Processing timeout' };
+  }
+}
+
+// Usage example
+const docManager = new UserDocumentManager('sk-your-api-key', 'your-agent-id');
+
+// Upload and wait for processing
+async function uploadAndProcess(userId, file) {
+  try {
+    // Upload document
+    const uploadResult = await docManager.uploadDocument(userId, file);
+    console.log('Upload started:', uploadResult);
+
+    // Wait for processing to complete
+    const processingResult = await docManager.waitForProcessing(userId, uploadResult.data.document_id);
+    
+    if (processingResult.success) {
+      console.log('Document processed successfully');
+      return processingResult.document;
+    } else {
+      throw new Error(processingResult.error);
+    }
+  } catch (error) {
+    console.error('Upload/processing failed:', error);
+    throw error;
+  }
+}
+```
+
+## File Upload Best Practices
+
+### File Validation
+```javascript
+function validateFile(file) {
+  const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'text/plain', 'text/html'];
+  const maxSize = 10 * 1024 * 1024; // 10MB
+
+  if (!allowedTypes.includes(file.type)) {
+    throw new Error('Unsupported file type');
+  }
+
+  if (file.size > maxSize) {
+    throw new Error('File too large (max 10MB)');
+  }
+
+  return true;
+}
+```
+
+### Batch Upload
+```javascript
+async function uploadMultipleDocuments(userId, files) {
+  const results = [];
+  
+  for (const file of files) {
+    try {
+      validateFile(file);
+      const result = await docManager.uploadDocument(userId, file);
+      results.push({ file: file.name, success: true, result });
+    } catch (error) {
+      results.push({ file: file.name, success: false, error: error.message });
+    }
+  }
+  
+  return results;
+}
+```
+
+### Error Handling
+```javascript
+async function uploadWithRetry(userId, file, maxRetries = 3) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await docManager.uploadDocument(userId, file);
+    } catch (error) {
+      if (attempt === maxRetries) {
+        throw error;
+      }
+      
+      // Wait before retry (exponential backoff)
+      await new Promise(resolve => setTimeout(resolve, Math.pow(2, attempt) * 1000));
+    }
+  }
+}
+```
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Upload Failed">
+    **Common causes:**
+    - File size exceeds 10MB limit
+    - Unsupported file format
+    - User database doesn't exist
+    - Invalid API key permissions
+    
+    **Solutions:**
+    - Check file size and format
+    - Create user database first
+    - Verify API key has `user_data` permission
+  </Accordion>
+
+  <Accordion title="Processing Stuck">
+    **Symptoms:** Document status remains "processing" for extended time
+    
+    **Solutions:**
+    - Wait up to 10 minutes for large documents
+    - Check processing status endpoint for error details
+    - Contact support if processing takes longer than 15 minutes
+  </Accordion>
+
+  <Accordion title="Document Not Found">
+    **Causes:**
+    - Document was deleted
+    - Incorrect document ID
+    - User database was deleted
+    
+    **Solutions:**
+    - Verify document ID is correct
+    - Check if user database exists
+    - List all documents to verify current state
+  </Accordion>
+</AccordionGroup>

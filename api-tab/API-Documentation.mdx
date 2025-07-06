@@ -1,21 +1,16 @@
 ---
-title: "Mind-e API Endpoints"
-description: "Complete API reference for creating personalized AI agents with user-specific knowledge bases"
+title: "API Documentation"
+description: "Mind-e provides powerful APIs for creating personalized AI agents with user-specific knowledge bases. Perfect for schools, organizations, and platforms that need to provide personalized AI experiences to their users"
+icon: "code"
 ---
-
-## Overview
-
-Mind-e provides powerful APIs for creating personalized AI agents with user-specific knowledge bases. Perfect for schools, organizations, and platforms that need to provide personalized AI experiences to their users.
 
 ### Key Features
 
-- <Icon icon="database" /> **User-Specific Databases** - Create isolated knowledge bases for each user
-- <Icon icon="file" /> **Document Management** - Upload and manage documents (PDF, Word, HTML, Text)  
-- <Icon icon="shield-check" /> **Identity Verification** - Secure user authentication without storing passwords
-- <Icon icon="check" /> **Vector Search** - AI-powered semantic search across user documents
-- <Icon icon="clock" /> **Real-time Processing** - Background document processing with status tracking
-
----
+- **User-Specific Databases** - Create isolated knowledge bases for each user
+- **Document Management** - Upload and manage documents (PDF, Word, HTML, Text)  
+- **Identity Verification** - Secure user authentication without storing passwords
+- **Vector Search** - AI-powered semantic search across user documents
+- **Real-time Processing** - Background document processing with status tracking
 
 ## Authentication
 
@@ -51,15 +46,13 @@ Authorization: Bearer sk-your-api-key-here
 - **user_databases**: Create and manage user databases
 - **user_data**: Upload and manage user documents
 
-### Base URLs
+## Base URLs
 
 - **Production**: `https://mind-e.co/api/`
 - **User Databases**: `https://mind-e.co/api/user-databases/`
 - **User Data**: `https://mind-e.co/api/user-data/`
 
----
-
-## API Endpoints
+## API Endpoints Overview
 
 ### User Database Management
 
@@ -77,7 +70,7 @@ Authorization: Bearer sk-your-api-key-here
 - **DELETE** `/user-data/agents/{agent_id}/users/{user_id}/documents?document_id={id}` - Delete user document
 - **GET** `/user-data/agents/{agent_id}/users/{user_id}/status` - Get document processing status
 
-### HTTP Status Codes
+## HTTP Status Codes
 
 | Code | Meaning |
 |------|---------|
@@ -91,369 +84,6 @@ Authorization: Bearer sk-your-api-key-here
 | 409 | Conflict (resource already exists) |
 | 429 | Too Many Requests (quota exceeded) |
 | 500 | Internal Server Error |
-
----
-
-## User Databases API
-
-Manage user-specific knowledge databases for your agents.
-
-### Create User Database
-
-Creates a new isolated database for a user.
-
-**Endpoint**: `POST /user-databases/agents/{agent_id}/users/{user_id}/database`
-
-**Parameters**:
-- `agent_id` (string): Your agent ID from Mind-e dashboard
-- `user_id` (string): Unique identifier for the user (1-50 characters, alphanumeric + underscore/hyphen/dot)
-
-<CodeGroup>
-```bash cURL
-curl -X POST "https://mind-e.co/api/user-databases/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/database" \
-  -H "Authorization: Bearer sk-your-api-key" \
-  -H "Content-Type: application/json"
-```
-
-```javascript JavaScript
-const response = await fetch('https://mind-e.co/api/user-databases/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/database', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer sk-your-api-key',
-    'Content-Type': 'application/json'
-  }
-});
-```
-
-```python Python
-import requests
-
-response = requests.post(
-    'https://mind-e.co/api/user-databases/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/database',
-    headers={
-        'Authorization': 'Bearer sk-your-api-key',
-        'Content-Type': 'application/json'
-    }
-)
-```
-</CodeGroup>
-
-**Response**:
-```json
-{
-  "success": true,
-  "data": {
-    "user_database_id": "abc-123-def",
-    "agent_id": "95ed0653-44d2-4c32-8add-0e7022691068",
-    "user_id": "student_123",
-    "table_name": "user_docs_95ed065344d24c328add0e7022691068_student_123",
-    "file_table_name": "user_docs_95ed065344d24c328add0e7022691068_student_123_files",
-    "status": "active",
-    "created_at": "2025-06-19T10:30:00Z",
-    "total_databases": 1,
-    "remaining_quota": 99
-  }
-}
-```
-
-### Get User Database
-
-Retrieves information about a user's database.
-
-**Endpoint**: `GET /user-databases/agents/{agent_id}/users/{user_id}/database`
-
-```bash
-curl -X GET "https://mind-e.co/api/user-databases/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/database" \
-  -H "Authorization: Bearer sk-your-api-key"
-```
-
-### Delete User Database
-
-Permanently deletes a user's database and all associated data.
-
-**Endpoint**: `DELETE /user-databases/agents/{agent_id}/users/{user_id}/database`
-
-```bash
-curl -X DELETE "https://mind-e.co/api/user-databases/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/database" \
-  -H "Authorization: Bearer sk-your-api-key"
-```
-
-### List All User Databases
-
-Lists all user databases for an agent.
-
-**Endpoint**: `GET /user-databases/agents/{agent_id}/users`
-
-**Response**:
-```json
-{
-  "success": true,
-  "data": {
-    "agent_id": "95ed0653-44d2-4c32-8add-0e7022691068",
-    "total_databases": 25,
-    "quota": {
-      "user_databases": {
-        "used": 25,
-        "limit": 100,
-        "remaining": 75
-      }
-    },
-    "databases": [
-      {
-        "user_database_id": "abc-123",
-        "user_id": "student_123",
-        "status": "active",
-        "created_at": "2025-06-19T10:30:00Z"
-      }
-    ]
-  }
-}
-```
-
-### Get Quota Information
-
-Check your database quota usage.
-
-**Endpoint**: `GET /user-databases/agents/{agent_id}/quota`
-
-### Debug Information
-
-Get detailed debug information about user databases.
-
-**Endpoint**: `GET /user-databases/agents/{agent_id}/debug`
-
----
-
-## User Data API
-
-Upload and manage documents in user-specific databases.
-
-### Upload Document
-
-Uploads a document to a user's database for processing.
-
-**Endpoint**: `POST /user-data/agents/{agent_id}/users/{user_id}/documents`
-
-**Supported Formats**: PDF, DOC, DOCX, TXT, HTML, HTM  
-**Max File Size**: 10MB
-
-<CodeGroup>
-```bash cURL
-curl -X POST "https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents" \
-  -H "Authorization: Bearer sk-your-api-key" \
-  -F "file=@student_schedule.pdf"
-```
-
-```javascript JavaScript
-const formData = new FormData();
-formData.append('file', fileInput.files[0]);
-
-const response = await fetch('https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents', {
-  method: 'POST',
-  headers: {
-    'Authorization': 'Bearer sk-your-api-key'
-  },
-  body: formData
-});
-```
-
-```python Python
-import requests
-
-files = {'file': open('student_schedule.pdf', 'rb')}
-response = requests.post(
-    'https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents',
-    headers={'Authorization': 'Bearer sk-your-api-key'},
-    files=files
-)
-```
-</CodeGroup>
-
-**Response**:
-```json
-{
-  "success": true,
-  "data": {
-    "document_id": "doc-abc-123",
-    "agent_id": "95ed0653-44d2-4c32-8add-0e7022691068",
-    "user_id": "student_123",
-    "filename": "student_schedule.pdf",
-    "size": 245760,
-    "type": "pdf",
-    "status": "processing",
-    "message": "Document uploaded successfully. Processing started."
-  }
-}
-```
-
-### List User Documents
-
-Lists all documents for a user.
-
-**Endpoint**: `GET /user-data/agents/{agent_id}/users/{user_id}/documents`
-
-**Response**:
-```json
-{
-  "success": true,
-  "data": {
-    "agent_id": "95ed0653-44d2-4c32-8add-0e7022691068",
-    "user_id": "student_123",
-    "total_documents": 3,
-    "documents": [
-      {
-        "document_id": "doc-abc-123",
-        "filename": "student_schedule.pdf",
-        "file_type": "pdf",
-        "file_size": 245760,
-        "status": "completed",
-        "uploaded_at": "2025-06-19T10:45:00Z",
-        "updated_at": "2025-06-19T10:47:30Z"
-      }
-    ]
-  }
-}
-```
-
-### Get Processing Status
-
-Check the processing status of user documents.
-
-**Endpoint**: `GET /user-data/agents/{agent_id}/users/{user_id}/status`
-
-**Response**:
-```json
-{
-  "success": true,
-  "data": {
-    "agent_id": "95ed0653-44d2-4c32-8add-0e7022691068",
-    "user_id": "student_123",
-    "total_documents": 5,
-    "status_summary": {
-      "processing": 1,
-      "completed": 3,
-      "error": 1,
-      "cancelled": 0
-    },
-    "recent_documents": [
-      {
-        "document_id": "doc-abc-123",
-        "filename": "Chapter1.pdf",
-        "status": "completed",
-        "uploaded_at": "2025-06-19T22:30:00Z"
-      }
-    ],
-    "last_updated": "2025-06-19T23:45:30Z"
-  }
-}
-```
-
-### Delete Document
-
-Deletes a document and all associated data.
-
-**Endpoint**: `DELETE /user-data/agents/{agent_id}/users/{user_id}/documents?document_id={document_id}`
-
-```bash
-curl -X DELETE "https://mind-e.co/api/user-data/agents/95ed0653-44d2-4c32-8add-0e7022691068/users/student_123/documents?document_id=doc-abc-123" \
-  -H "Authorization: Bearer sk-your-api-key"
-```
-
----
-
-## Identity Verification System
-
-Secure user authentication for personalized AI responses without storing passwords.
-
-### How It Works
-
-<Steps>
-  <Step title="Server-side">
-    Generate a hash using HMAC-SHA256 with your secret key
-  </Step>
-  <Step title="Client-side">
-    Send user ID, hash, and optional metadata
-  </Step>
-  <Step title="Mind-e">
-    Verifies the hash and provides personalized responses
-  </Step>
-</Steps>
-
-### Generate User Hash
-
-Use your agent's secret key to generate verification hashes:
-
-<CodeGroup>
-```javascript Node.js
-const crypto = require('crypto');
-
-function generateUserHash(userId, secretKey) {
-    return crypto
-        .createHmac('sha256', secretKey)
-        .update(userId)
-        .digest('hex');
-}
-
-// Usage
-const userId = 'student_123';
-const secretKey = 'your-secret-key-from-dashboard';
-const userHash = generateUserHash(userId, secretKey);
-```
-
-```php PHP
-function generateUserHash($userId, $secretKey) {
-    return hash_hmac('sha256', $userId, $secretKey);
-}
-
-// Usage
-$userId = 'student_123';
-$secretKey = 'your-secret-key-from-dashboard';
-$userHash = generateUserHash($userId, $secretKey);
-```
-
-```python Python
-import hmac
-import hashlib
-
-def generate_user_hash(user_id, secret_key):
-    return hmac.new(
-        secret_key.encode(),
-        user_id.encode(),
-        hashlib.sha256
-    ).hexdigest()
-
-# Usage
-user_id = 'student_123'
-secret_key = 'your-secret-key-from-dashboard'
-user_hash = generate_user_hash(user_id, secret_key)
-```
-</CodeGroup>
-
-### Using Identity Verification in Chat
-
-When making chat requests, include identity verification:
-
-```javascript
-// Chat request with verified identity
-const chatRequest = {
-    message: "When is my next exam?",
-    user_id: "student_123",
-    user_hash: userHash,
-    user_metadata: {
-        class: "10A",
-        semester: "fall2024"
-    }
-};
-```
-
-### Benefits
-
-- ✅ **No passwords stored** - Only cryptographic hashes
-- ✅ **Per-request verification** - Each interaction is verified  
-- ✅ **Automatic data isolation** - Users only access their own data
-- ✅ **Audit trail** - All access is logged with user context
-
----
 
 ## Error Handling
 
@@ -469,8 +99,8 @@ All APIs return consistent error responses:
 
 ### Common Error Scenarios
 
-<Accordion title="Error Examples">
-  <AccordionItem title="Invalid API Key">
+<AccordionGroup>
+  <Accordion title="Invalid API Key">
     ```json
     {
       "success": false,
@@ -478,9 +108,9 @@ All APIs return consistent error responses:
       "code": 401
     }
     ```
-  </AccordionItem>
+  </Accordion>
   
-  <AccordionItem title="User Database Already Exists">
+  <Accordion title="User Database Already Exists">
     ```json
     {
       "success": false,
@@ -488,9 +118,9 @@ All APIs return consistent error responses:
       "code": 409
     }
     ```
-  </AccordionItem>
+  </Accordion>
   
-  <AccordionItem title="File Too Large">
+  <Accordion title="File Too Large">
     ```json
     {
       "success": false,
@@ -498,215 +128,5 @@ All APIs return consistent error responses:
       "code": 400
     }
     ```
-  </AccordionItem>
-</Accordion>
-
----
-
-## Rate Limits & Quotas
-
-### Default Limits
-
-| Resource | Limit |
-|----------|-------|
-| User Databases per Agent | 100 |
-| Documents per User Database | Unlimited |
-| File Size | 10MB |
-| API Requests | 1000/hour |
-
-### Quota Headers
-
-API responses include quota information in headers:
-
-```http
-X-RateLimit-Limit: 1000
-X-RateLimit-Remaining: 985
-X-RateLimit-Reset: 1640995200
-```
-
----
-
-## Getting Started
-
-### Quick Start Guide
-
-<Steps>
-  <Step title="Get API Key">
-    - Sign up at mind-e.co
-    - Create an agent
-    - Generate API key with user_databases permission
-  </Step>
-  
-  <Step title="Enable Per-User Databases">
-    - Go to your agent settings
-    - Enable "Per-User Databases" feature
-  </Step>
-  
-  <Step title="Create User Database">
-    ```bash
-    curl -X POST "https://mind-e.co/api/user-databases/agents/YOUR_AGENT_ID/users/user_123/database" \
-      -H "Authorization: Bearer YOUR_API_KEY"
-    ```
-  </Step>
-  
-  <Step title="Upload Documents">
-    ```bash
-    curl -X POST "https://mind-e.co/api/user-data/agents/YOUR_AGENT_ID/users/user_123/documents" \
-      -H "Authorization: Bearer YOUR_API_KEY" \
-      -F "file=@document.pdf"
-    ```
-  </Step>
-  
-  <Step title="Implement Identity Verification">
-    - Get your secret key from agent settings
-    - Generate user hashes server-side
-    - Include verification in chat requests
-  </Step>
-</Steps>
-
----
-
-## Example Integration
-
-### School Management System Integration
-
-<CodeGroup>
-```javascript Complete Example
-// 1. Create databases for all students
-async function createStudentDatabases(students) {
-    for (const student of students) {
-        await fetch(`https://mind-e.co/api/user-databases/agents/${AGENT_ID}/users/${student.id}/database`, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${API_KEY}`
-            }
-        });
-    }
-}
-
-// 2. Upload student-specific documents
-async function uploadStudentSchedule(studentId, scheduleFile) {
-    const formData = new FormData();
-    formData.append('file', scheduleFile);
-    
-    await fetch(`https://mind-e.co/api/user-data/agents/${AGENT_ID}/users/${studentId}/documents`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${API_KEY}`
-        },
-        body: formData
-    });
-}
-
-// 3. Generate verification hash for student
-function generateStudentHash(studentId) {
-    return crypto
-        .createHmac('sha256', SECRET_KEY)
-        .update(studentId)
-        .digest('hex');
-}
-
-// 4. Student chat with verification
-async function studentChat(studentId, message) {
-    const userHash = generateStudentHash(studentId);
-    
-    const response = await fetch(`${CHAT_ENDPOINT}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            message,
-            user_id: studentId,
-            user_hash: userHash,
-            user_metadata: {
-                role: 'student',
-                school_id: 'school_123'
-            }
-        })
-    });
-    
-    return response.json();
-}
-```
-</CodeGroup>
-
----
-
-## Use Cases
-
-### 🎓 Educational Platforms
-- **Student Portals**: Personal schedules, grades, assignments
-- **Learning Management**: Course materials, progress tracking  
-- **Parent Portals**: Child-specific information and updates
-
-### 🏢 Enterprise Applications
-- **Employee Self-Service**: HR documents, policies, benefits
-- **Customer Support**: Account-specific documentation
-- **Training Platforms**: Role-specific training materials
-
-### 🏥 Healthcare Systems
-- **Patient Portals**: Medical records, appointments, test results
-- **Provider Systems**: Patient-specific notes and history
-- **Care Coordination**: Shared patient information
-
----
-
-## SDKs & Libraries
-
-### Official SDKs
-
-- **JavaScript/Node.js**: `npm install @mind-e/api-client`
-- **Python**: `pip install mind-e-api`
-- **PHP**: `composer require mind-e/api-client`
-
-### Community Libraries
-
-- **React Components**: Pre-built UI components
-- **WordPress Plugin**: Easy WordPress integration
-- **Webhook Handlers**: Process status updates
-
----
-
-## Support
-
-### Documentation
-
-- **API Reference**: Complete endpoint documentation
-- **Tutorials**: Step-by-step integration guides
-- **Examples**: Sample code and implementations
-
-### Community
-
-- **Discord**: Join our developer community
-- **GitHub**: Open source examples and tools
-- **Stack Overflow**: Tag your questions with mind-e
-
-### Contact
-
-- **Email**: api-support@mind-e.co
-- **Status Page**: status.mind-e.co
-- **Feature Requests**: feedback@mind-e.co
-
----
-
-## Changelog
-
-### v1.0.0 (Current)
-
-- Initial release of User Databases API
-- User Data Upload API
-- Identity Verification System
-- Document processing with vector search
-- Real-time status tracking
-
-### Upcoming Features
-
-- **Webhook Support**: Real-time notifications
-- **Bulk Operations**: Upload multiple documents
-- **Advanced Search**: Custom search parameters
-- **Analytics API**: Usage statistics and insights
-
----
-
-<Note>
-**Last updated**: June 20, 2025
-</Note>
+  </Accordion>
+</AccordionGroup>
